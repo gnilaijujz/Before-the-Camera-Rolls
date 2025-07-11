@@ -22,3 +22,34 @@ main函数：
 
 
 其实就是把自己那部分数据分析代码放在该项目文件夹下，封装成函数即可，注意衡量指标是用处理过的heat值，其中有任何问题，或者无法理解的方面咱们再讨论。
+
+translation：
+
+# Before the Camera Rolls  
+Web Mining Project - SOC Summer Workshop 2025  
+
+
+## Main Function:  
+1. **Data Processing**  
+   (1) Perform simple data cleaning, including handling missing values and converting time formats (using the `load_and_clean_data` function from the `data_processing` file).  
+
+   (2) Segment the normalized popularity into intervals, currently set to 7-day intervals (adjustable later). A new column `period_label` is added, where entries in the same segment share the same `period_label` (using the `split_time_periods` function from the `data_processing` file).  
+
+   (3) Assign weights to different segments based on an exponential distribution. These weights are multiplied by the normalized popularity of each data entry to generate a new column `heat`. The `heat` column, which better reflects time-sensitive effects, serves as the metric for all subsequent model analyses (using the `add_heat_column` function from the `weighting` file).  
+
+
+2. **Data Analysis**  
+   This example focuses on analyzing upload times.  
+
+   The `data_processing` and `weighting` files mentioned above are general-purpose for data processing. Additionally, `utils` likely contains files related to log management.  
+
+   The `publish_time_analyzer` file contains code specifically for analyzing upload times. Each team member can place their own analysis code in a separate file (similar to this one) and call it in the `main` function for data analysis.  
+
+
+3. **LLM Integration**  
+   The interface for the LLM (Large Language Model) has not been implemented yet, so it is commented out for now and will be added later.  
+
+   For debugging convenience, the data analysis results are currently displayed in the terminal.  
+
+
+In summary, simply place your data analysis code in the project folder, encapsulate it into functions, and note that the evaluation metric uses the processed `heat` value. Feel free to discuss any issues or unclear aspects.
