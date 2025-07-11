@@ -4,7 +4,7 @@ import pandas as pd
 df = pd.read_csv('sports_2024-2025.csv', encoding='UTF-8-SIG')
 
 # 定义需要归一化的列
-columns_to_normalize = ['view_count', 'like_count', 'comment_count', 'engagement_rate']
+columns_to_normalize = ['view_count', 'like_count', 'comment_count']
 
 # 进行最小-最大归一化
 for column in columns_to_normalize:
@@ -13,16 +13,14 @@ for column in columns_to_normalize:
 # 定义权重
 weights = {
     'view_count': 0.50,
-    'like_count': 0.20,
-    'comment_count': 0.20,
-    'engagement_rate': 0.10
+    'like_count': 0.25,
+    'comment_count': 0.25
 }
 
 # 计算热度值
 df['popularity'] = (df['view_count'] * weights['view_count'] +
               df['like_count'] * weights['like_count'] +
-              df['comment_count'] * weights['comment_count'] +
-              df['engagement_rate'] * weights['engagement_rate'])
+              df['comment_count'] * weights['comment_count'] )
 
 # 对 popularity 列进行最小-最大归一化
 df['popularity_normalized'] = (df['popularity'] - df['popularity'].min()) / (df['popularity'].max() - df['popularity'].min())
