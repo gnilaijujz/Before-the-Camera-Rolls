@@ -54,13 +54,12 @@ df['published_at'] = pd.to_datetime(df['published_at'])
 latest_date = df['published_at'].max()
 df['days_since_publish'] = (latest_date - df['published_at']).dt.days
 
-# 指数衰减函数 (半衰期=90天)
-half_life = 90
-decay_rate = np.log(2) / half_life
-df['time_weight'] = np.exp(-decay_rate * df['days_since_publish'])
+def plateau_decay(t, early_a=0.25, t0=20, floor=0.35):
+    decay = 1 / (1 + np.exp(early_a * (t - t0)))
+    return np.maximum(decay, floor)
 
-# 时间调整后的流行度
-df['adj_popularity'] = df['popularity_normalized'] / df['time_weight']
+df['time_weight'] = plateau_decay(df['days_since_publish'])
+df['adj_popularity'] = df['popularity_normalized'] * df['time_weight']
 
 # 3. 简介文本预处理
 def clean_text(text):
