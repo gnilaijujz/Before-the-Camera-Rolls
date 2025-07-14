@@ -1,0 +1,62 @@
+---
+
+### AI Assistant Title Evaluation Results
+
+==================================================
+
+#### Video Type: **short**
+
+**Original Title:** Bronny James stepback 😮‍💨
+**Predicted Popularity:** 0.3698
+**Primary Theme:** Player Highlight
+**Emotion Score:** 0.36
+**Word Count:** 4
+
+**Improvement Suggestions:**
+
+* Title is short: consider adding context like team names or game situation.
+* Emojis draw attention, but the title lacks search-friendly terms.
+* Mentioning “NBA”, “Game Winner”, or “Highlight” can improve reach.
+
+**Recommended Template:**
+{player} breaks ankles with this move! 🏀 Don't miss it! #NBA #Highlights
+
+---
+
+#### Video Type: **medium**
+
+**Original Title:** ATHLETIC CLUB 2 - 2 CA OSASUNA | RESUMEN LALIGA EA SPORTS 2023/24
+**Predicted Popularity:** 0.5298
+**Primary Theme:** Match Recap
+**Emotion Score:** 0.77
+**Word Count:** 12
+
+**Improvement Suggestions:**
+
+* Balanced and informative, but a bit long for a medium title.
+* Use keywords like “Last-Minute Equaliser” or “Thriller” to drive curiosity.
+* Emojis or action verbs can add emotional pull.
+
+**Recommended Template:**
+{team1} vs {team2}: {key\_moment} changes everything! ⚽ #MatchRecap #LaLiga
+
+---
+
+#### Video Type: **long**
+
+**Original Title:** Scrolling takes up half your year. #motivation #shorts
+**Predicted Popularity:** 0.0849
+**Primary Theme:** Time Awareness / Motivation
+**Emotion Score:** 0.57
+**Word Count:** 12
+
+**Improvement Suggestions:**
+
+* The message is clear but too stretched across a long phrase.
+* Use sharper phrasing or rhetorical questions for stronger hook.
+* Include words like “wasted”, “realise”, or “change now” for urgency.
+
+**Recommended Template:**
+You won’t believe how much time you scroll. 😳 Take control now! #motivation #change
+
+---
