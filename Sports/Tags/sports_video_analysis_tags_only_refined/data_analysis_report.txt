@@ -1,0 +1,37 @@
+============================================================
+Sports Video Data Analysis Report
+============================================================
+
+Video Duration Distribution:
+--------------------------------------------------
+  Short Videos: 2471 (89.0%)
+  Long Videos: 163 (5.9%)
+  Medium Videos: 142 (5.1%)
+
+Video Popularity Analysis:
+--------------------------------------------------
+  Original Average Popularity: 0.0204
+  Time-Adjusted Average Popularity: 781.1465
+
+Most Common Tags (Top 20):
+--------------------------------------------------
+  : 1352 times
+   sports: 279 times
+   football: 227 times
+   : 172 times
+   soccer: 127 times
+   shorts: 111 times
+   highlights: 105 times
+   sport: 100 times
+   ucl: 75 times
+   thierry henry: 73 times
+   jamie carragher: 73 times
+   uefa: 72 times
+   workout: 72 times
+   micah richards: 71 times
+   uel: 71 times
+   europa league: 70 times
+   cbs golazo: 69 times
+   cbs: 69 times
+   cbs studio: 69 times
+   champions league highlights: 69 times

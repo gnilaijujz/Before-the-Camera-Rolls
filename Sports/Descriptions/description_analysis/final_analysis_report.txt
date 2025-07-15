@@ -2,7 +2,7 @@
 视频简介对流行度影响分析报告
 ============================================================
 
-报告生成时间: 2025-07-13 04:05:54
+报告生成时间: 2025-07-15 15:32:11
 总视频数量: 2776
 短视频数量: 2471
 中视频数量: 142
@@ -10,52 +10,52 @@
 
 主题分析:
 --------------------------------------------------
-订阅与关注 (主题0): sport, get, live, game, youtube, short, nba, news, world, day
-赛事信息 (主题1): short, youtubeshorts, sport, kick, sky, sky sport, trending, ytshorts, mma, shortsfeed
-选手亮点 (主题2): espn, de, el, espn youtube, en, la, ea, ea sport, laliga, youtube
-背景故事 (主题3): ucl, league, de, sport, le, replay, uefa, sur, cbs, cbs sport
-技术分析 (主题4): via, hoh, discord, twitch, ill, iucaswong, social lucaswong, iucaswong twitch, stream discord, lucaswong
+订阅与关注 (主题0): sport, game, short, youtube, world, cricket, football, news, day, use
+赛事信息 (主题1): short, youtubeshorts, kick, sky, sky sport, sport, ytshorts, trending, mma, shortsfeed
+选手亮点 (主题2): ucl, league, uefa, cbs, cbs sport, paramount, micah, golazo, sport golazo, men
+背景故事 (主题3): de, en, nba, el, la, ea, ea sport, laliga, al, laliga ea
+技术分析 (主题4): espn, espn youtube, youtube, replay, via, ufc, mlb, ill, idk, social lucaswong
 
 模型性能评估:
 --------------------------------------------------
 Short视频:
   样本量: 2471
-  RMSE: 1.2566
-  R²: -0.2709
-  交叉验证R²: -0.0650 ± 0.0834
+  RMSE: 2885.8070
+  R²: 0.0311
+  交叉验证R²: 0.0082 ± 0.0333
 
   重要特征:
-    - avg_word_length: 0.1985
-    - topic_0: 0.1934
-    - topic_4: 0.1190
-    - topic_3: 0.1098
-    - topic_1: 0.1011
+    - topic_4: 0.1932
+    - topic_0: 0.1399
+    - topic_3: 0.1230
+    - topic_1: 0.1104
+    - avg_word_length: 0.1038
 
 Medium视频:
   样本量: 142
-  RMSE: 0.0951
-  R²: -1.2704
-  交叉验证R²: -4.0624 ± 7.6653
+  RMSE: 231.0894
+  R²: -0.1869
+  交叉验证R²: -0.4757 ± 0.3152
 
   重要特征:
-    - avg_word_length: 0.2032
-    - unique_word_ratio: 0.1990
-    - topic_2: 0.1598
-    - topic_1: 0.0893
-    - topic_4: 0.0822
+    - unique_word_ratio: 0.2224
+    - topic_1: 0.1518
+    - topic_0: 0.1194
+    - sentiment: 0.1067
+    - avg_word_length: 0.0995
 
 Long视频:
   样本量: 163
-  RMSE: 0.1437
-  R²: -0.2071
-  交叉验证R²: -0.2087 ± 0.2017
+  RMSE: 282.0514
+  R²: 0.3221
+  交叉验证R²: -0.0033 ± 0.1649
 
   重要特征:
-    - avg_word_length: 0.2189
-    - word_count: 0.1687
-    - topic_4: 0.1268
-    - unique_word_ratio: 0.1123
-    - topic_1: 0.0934
+    - sentiment: 0.2730
+    - avg_word_length: 0.1620
+    - word_count: 0.1600
+    - unique_word_ratio: 0.1582
+    - topic_0: 0.0958
 
 
 关键发现:

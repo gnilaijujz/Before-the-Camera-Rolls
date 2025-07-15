@@ -1,0 +1,66 @@
+============================================================
+Sports Video Popularity Prediction Model Performance Report (Tags Only Features, Refined)
+============================================================
+
+Report Generated At: 2025-07-15 14:50:24
+Total Videos: 2776
+Short Videos: 2471
+Medium Videos: 142
+Long Videos: 163
+
+Model Performance Evaluation (Tuned Models with Tags Only):
+--------------------------------------------------
+Short Videos:
+  Number of Samples: 2471
+  RMSE: 2911.8084
+  R²: 0.0135
+  Cross-validation R² (on training set with best model): 0.0205 ± 0.0176
+  Best Hyperparameters: {'hidden_layer_sizes': (128, 64), 'activation': 'relu'}
+
+Medium Videos:
+  Number of Samples: 142
+  RMSE: 215.9867
+  R²: -0.0368
+  Cross-validation R² (on training set with best model): -0.3739 ± 0.6320
+  Best Hyperparameters: {'learning_rate': 0.03, 'min_child_samples': 10, 'n_estimators': 80, 'num_leaves': 20}
+
+Long Videos:
+  Number of Samples: 163
+  RMSE: 322.8766
+  R²: 0.1117
+  Cross-validation R² (on training set with best model): 0.0300 ± 0.1172
+  Best Hyperparameters: {'learning_rate': 0.03, 'max_depth': 2, 'n_estimators': 150, 'reg_lambda': 0.8}
+
+
+Key Insights:
+--------------------------------------------------
+1. Video Duration Classification Strategy:
+   - Short videos (<4 minutes): Suitable for fast-paced content (highlights/snippets)
+   - Medium videos (4-20 minutes): Tutorials/match compilations
+   - Long videos (>20 minutes): In-depth analysis/documentaries
+2. Time Decay Model:
+   - Plateau decay function applied to adjust popularity based on age.
+   - Note: 'time_weight' is used for 'adj_popularity' calculation but *not* as an independent variable for prediction.
+3. Tag Recommendation System (KMeans Clustering):
+   - Integrated score = 0.6 × Similarity + 0.4 × Normalized Popularity
+   - Balances semantic relevance from cluster centers and historical performance.
+4. Hyperparameter Tuning:
+   - GridSearchCV was used to find optimal parameters for XGBoost and LightGBM models.
+   - Models are trained exclusively on tag-based features. Refined search space and increased TF-IDF features/KMeans clusters were applied.
+
+
+Example Tag Recommendations:
+--------------------------------------------------
+Query: 'I want to create an exciting basketball highlight video'
+Video Type: short
+Recommendations:
+  7385. hs basketball (Score: 0.8359)
+  5700. basketball (Score: 0.6304)
+  1817. basketball maestro drew timme (Score: 0.6000)
+  2876. asmr (Score: 0.4000)
+  6726. al jazeera (Score: 0.2777)
+  1885. espn fc (Score: 0.2176)
+  144. ss food challenge (Score: 0.1983)
+  78. red bull (Score: 0.1974)
+  7535. stokes twins (Score: 0.1908)
+  5469. abn news (Score: 0.1724)

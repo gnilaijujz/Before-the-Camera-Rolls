@@ -16,6 +16,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 import re
+from sklearn.neural_network import MLPRegressor
+import shap
 
 # Create output directory
 output_dir = "sports_video_analysis_tags_only_refined" # Changed output directory again
@@ -45,9 +47,9 @@ def plateau_decay(t, early_a=0.25, t0=20, floor=0.35):
     return np.maximum(decay, floor)
 
 df['time_weight'] = plateau_decay(df['days_since_publish'])
-df['adj_popularity'] = df['popularity_normalized'] * df['time_weight']
+df['adj_popularity'] = df['popularity_normalized']* 100000 * df['time_weight']
 
-# Tag cleaning and vectorization
+# Tag cleaning and vectorizations
 def clean_tags(tag_str):
     if pd.isna(tag_str):
         return ""
@@ -92,11 +94,13 @@ plt.rcParams['font.size'] = 12
 
 # --- ADJUSTMENT 3: Refine parameter grids for GridSearchCV ---
 # Broader ranges and potentially new parameters for better exploration
+'''
 param_grid_xgb_short = {
     'n_estimators': [150, 250, 350], # Expanded range
     'learning_rate': [0.03, 0.05, 0.07],
     'max_depth': [4, 5, 6] # Slightly adjusted max_depth
 }
+'''
 
 param_grid_lgbm_medium = {
     'n_estimators': [80, 120, 160], # Expanded range
@@ -113,13 +117,13 @@ param_grid_xgb_long = {
 }
 
 model_initializers = {
-    'short': XGBRegressor(random_state=42, n_jobs=-1, verbosity=0, objective='reg:squarederror'), # Specify objective
+    #'short': XGBRegressor(random_state=42, n_jobs=-1, verbosity=0, objective='reg:squarederror'), # Specify objective
     'medium': LGBMRegressor(random_state=42, objective='regression'), # Specify objective
     'long': XGBRegressor(random_state=42, n_jobs=-1, verbosity=0, objective='reg:squarederror') # Specify objective
 }
 
 param_grids = {
-    'short': param_grid_xgb_short,
+    #'short': param_grid_xgb_short,
     'medium': param_grid_lgbm_medium,
     'long': param_grid_xgb_long
 }
@@ -128,67 +132,97 @@ param_grids = {
 for dtype in ['short', 'medium', 'long']:
     print(f"\n===== Modeling {dtype} videos =====")
     subset = df[df['duration_type'] == dtype]
-    # Features remain only cluster names as per user request
     features = cluster_feature_names
     X = subset[features]
     y = subset['adj_popularity']
 
-    if len(subset) < 20: # Keep threshold for meaningful cross-validation/tuning
+    if len(subset) < 20:
         print(f"⚠️ Not enough samples for {dtype} videos ({len(subset)}), skipping modeling and tuning.")
         continue
 
-    # Ensure there are enough unique values in y for splitting if test_size is large
     if len(y.unique()) < 2:
         print(f"⚠️ Not enough unique target values for {dtype} videos, skipping modeling.")
         continue
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Perform GridSearchCV for hyperparameter tuning
-    model_base = model_initializers[dtype]
-    grid_search = GridSearchCV(estimator=model_base,
-                               param_grid=param_grids[dtype],
-                               scoring='r2',
-                               cv=min(5, len(X_train)), # Use at most 5 folds, limited by train set size
-                               n_jobs=-1,
-                               verbose=1)
+    # ✅ 替代 short 部分为 MLP + SHAP
+    if dtype == 'short':
+        print("🚀 Training MLPRegressor for short videos...")
+        mlp = MLPRegressor(hidden_layer_sizes=(128, 64), activation='relu',
+                           solver='adam', max_iter=500, early_stopping=True,
+                           random_state=42)
+        mlp.fit(X_train, y_train)
+        y_pred = mlp.predict(X_test)
 
-    print(f"Starting GridSearchCV for {dtype} videos (tags only, refined tuning)...")
+        rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+        r2 = r2_score(y_test, y_pred)
+        cv_scores = cross_val_score(mlp, X_train, y_train, cv=5, scoring='r2')
+        cv_mean = np.mean(cv_scores)
+        cv_std = np.std(cv_scores)
+
+        print(f"✅ MLP RMSE: {rmse:.4f}")
+        print(f"✅ MLP R²: {r2:.4f}")
+        print(f"✅ MLP CV R²: {cv_mean:.4f} ± {cv_std:.4f}")
+
+        results[dtype] = {
+            'rmse': rmse,
+            'r2': r2,
+            'cv_r2': cv_mean,
+            'cv_std': cv_std,
+            'num_samples': len(subset),
+            'best_params': {'hidden_layer_sizes': (128, 64), 'activation': 'relu'}
+        }
+        models[dtype] = mlp
+
+        # ✅ SHAP 可解释性分析
+        print("🔍 Generating SHAP values for short videos...")
+        explainer = shap.KernelExplainer(mlp.predict, shap.kmeans(X_train, 10))
+        shap_values = explainer.shap_values(X_test[:100], nsamples=100)
+
+        shap_output_path = os.path.join(output_dir, f"{dtype}_shap_summary.png")
+        plt.figure()
+        shap.summary_plot(shap_values, X_test[:100], feature_names=features, show=False)
+        plt.tight_layout()
+        plt.savefig(shap_output_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        print(f"✅ Saved SHAP summary plot to: {shap_output_path}")
+
+        # ✅ 散点图
+        plt.figure(figsize=(10, 6))
+        plt.scatter(y_test, y_pred, alpha=0.6, color='darkorange')
+        plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)
+        plt.title(f"{dtype.capitalize()} Videos - Predicted vs. Actual (MLP + Tags)")
+        plt.xlabel("Actual Popularity")
+        plt.ylabel("Predicted Popularity")
+        plt.text(0.05, 0.9, f"R² = {r2:.3f}", transform=plt.gca().transAxes)
+        scatter_img_path = os.path.join(output_dir, f"{dtype}_prediction_scatter_mlp_tags.png")
+        plt.savefig(scatter_img_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        print(f"✅ Saved prediction scatter plot to: {scatter_img_path}")
+
+        continue  # skip rest
+
+    # ✅ medium 和 long 用原有 GridSearchCV 模型
+    model_base = model_initializers[dtype]
+    param_grid = param_grids[dtype]
+    grid_search = GridSearchCV(estimator=model_base, param_grid=param_grid,
+                               scoring='r2', cv=min(5, len(X_train)), n_jobs=-1, verbose=1)
     try:
         grid_search.fit(X_train, y_train)
     except Exception as e:
         print(f"❌ Error during GridSearchCV for {dtype} videos: {e}")
-        print("Skipping further evaluation for this duration type.")
         results[dtype] = {'rmse': np.nan, 'r2': np.nan, 'cv_r2': np.nan, 'cv_std': np.nan, 'num_samples': len(subset), 'best_params': "N/A"}
         continue
-    
+
     model = grid_search.best_estimator_
     best_params = grid_search.best_params_
-    best_params_storage[dtype] = best_params
-
-    print(f"Best parameters for {dtype} videos: {best_params}")
-    print(f"Best R2 from GridSearchCV for {dtype} videos: {grid_search.best_score_:.4f}")
-
     y_pred = model.predict(X_test)
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     r2 = r2_score(y_test, y_pred)
-
-    if len(X_train) >= 5: # Cross-validation requires at least 2 folds, thus at least 2 samples per fold, ideally more.
-        try:
-            cv_scores = cross_val_score(model, X_train, y_train, cv=min(5, len(X_train)), scoring='r2', n_jobs=-1)
-            cv_mean = np.mean(cv_scores)
-            cv_std = np.std(cv_scores)
-        except Exception as e:
-            print(f"⚠️ Error during cross-validation for {dtype}: {e}")
-            cv_mean = np.nan
-            cv_std = np.nan
-    else:
-        cv_mean = np.nan
-        cv_std = np.nan
-
-    print(f"Test RMSE: {rmse:.4f}")
-    print(f"Test R²: {r2:.4f}")
-    print(f"Cross-validation R² (on training set with best model): {cv_mean:.4f} ± {cv_std:.4f}")
+    cv_scores = cross_val_score(model, X_train, y_train, cv=min(5, len(X_train)), scoring='r2', n_jobs=-1)
+    cv_mean = np.mean(cv_scores)
+    cv_std = np.std(cv_scores)
 
     results[dtype] = {
         'rmse': rmse,

@@ -3,15 +3,14 @@ AI助手测试结果
 
 视频类型: short
 原始简介: Amazing goal by Messi! Watch now! #football #soccer
-预测流行度: 0.5530
-主要主题: 背景故事
+预测流行度: 912.5791
+主要主题: 订阅与关注
 情感分数: 0.60
 字数: 8
 
 改进建议:
  - 简介过短：可添加更多关键词提升可搜索性
- - 主题不匹配：短视频更适合突出选手亮点而非背景故事
- - 重要特征：尝试优化 avg_word_length, topic_0, topic_4
+ - 重要特征：尝试优化 topic_4, topic_0, topic_3
 
 推荐模板:
 精彩时刻：{highlight}！🔥 不容错过！ #体育 #精彩瞬间
@@ -20,23 +19,23 @@ AI助手测试结果
 
 视频类型: medium
 原始简介: Full highlights of the Lakers vs Warriors game. Key moments: LeBron's dunk, Curry's three-pointers. Subscribe for more NBA content.
-预测流行度: 0.0655
-主要主题: 订阅与关注
+预测流行度: 540.3398
+主要主题: 背景故事
 情感分数: 0.11
 字数: 19
 
 改进建议:
  - 简介过短：中视频可包含更多细节，建议50-150字
- - 重要特征：尝试优化 avg_word_length, unique_word_ratio, topic_2
+ - 重要特征：尝试优化 unique_word_ratio, topic_1, topic_0
 
 推荐模板:
-赛事集锦：{event} 的精彩回顾。包含 {key_moments} 等关键时刻。订阅获取更多内容！
+背后的故事：{player} 如何克服困难参加 {event}。❤️ #体育 #故事
 
 --------------------------------------------------
 
 视频类型: long
 原始简介: In-depth analysis of the 2024 Australian Open. This documentary explores the journey of the top players, their training routines, and the key matches that defined the tournament.
-预测流行度: 0.0213
+预测流行度: 240.7828
 主要主题: 订阅与关注
 情感分数: 0.10
 字数: 26
@@ -44,7 +43,7 @@ AI助手测试结果
 改进建议:
  - 简介过短：长视频应提供详细背景，建议100字以上
  - 主题不匹配：长视频应减少关注引导，增加深度内容
- - 重要特征：尝试优化 avg_word_length, word_count, topic_4
+ - 重要特征：尝试优化 sentiment, avg_word_length, word_count
 
 推荐模板:
 深度解析：{event} 的完整回顾与分析。从历史背景到技术细节，全面解读 {key_aspects}。

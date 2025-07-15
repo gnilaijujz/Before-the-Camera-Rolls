@@ -59,7 +59,7 @@ def plateau_decay(t, early_a=0.25, t0=20, floor=0.35):
     return np.maximum(decay, floor)
 
 df['time_weight'] = plateau_decay(df['days_since_publish'])
-df['adj_popularity'] = df['popularity_normalized'] * df['time_weight']
+df['adj_popularity'] = df['popularity_normalized'] * 100000 * df['time_weight']
 
 # 3. 简介文本预处理
 def clean_text(text):
@@ -759,5 +759,3 @@ print(f"✅ 已保存分析概览图像到: {overview_img_path}")
 print("\n" + "="*50)
 print("分析完成! 所有结果已保存至目录:", output_dir)
 print("="*50)
-
-
