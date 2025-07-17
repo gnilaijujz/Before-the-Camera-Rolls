@@ -29,14 +29,14 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 # 马卡龙色系配置（核心美化方案）
 MACARON_COLORS = {
-    'pink': "#FBB4C1",      # 马卡龙粉
-    'blue': "#96D7BA",      # 马卡龙蓝
-    'purple': "#AFB8DA",    # 马卡龙紫
-    'yellow': "#FCE89A",    # 马卡龙黄
-    'green': "#6FC29D",     # 马卡龙绿
-    'peach': "#FACFBA",     # 马卡龙桃
-    'mint': "#AAECF5",      # 马卡龙薄荷
-    'lavender': "#E7D1F1",  # 马卡龙薰衣草
+    'pink': "#E3F38B",      # 马卡龙粉
+    'blue': "#8BE6BD",      # 马卡龙蓝
+    'purple': "#81C7F9",    # 马卡龙紫
+    'yellow': "#FEBE74",    # 马卡龙黄
+    'green': "#ACD8FD",     # 马卡龙绿
+    'peach': "#EFBCF8",     # 马卡龙桃
+    'mint': "#ADE792",      # 马卡龙薄荷
+    'lavender': "#F9ABD6",  # 马卡龙薰衣草
 }
 
 def create_macaron_cmap(base_color, num_colors=256):
@@ -710,7 +710,7 @@ class YouTubeTimeAnalyzer:
             print(*args, **kwargs, file=report_str)
 
         print_to_report(f"\n" + "🎯" * 20)
-        print_to_report("   YouTube Sports Video Publication Time Analysis Report")
+        print_to_report("   YouTube Music Video Publication Time Analysis Report")
         print_to_report("🎯" * 20)
         
         # 数据概况
@@ -795,7 +795,7 @@ class YouTubeTimeAnalyzer:
 
 def main():
     """主程序入口"""
-    file_path = './sports_videos.csv'  # 修改为你的CSV文件实际路径（建议放在同目录下）
+    file_path = './music_2024-2025.csv'  # 修改为你的CSV文件实际路径（建议放在同目录下）
     analyzer = YouTubeTimeAnalyzer(file_path)
     analyzer.run_complete_analysis()
 
