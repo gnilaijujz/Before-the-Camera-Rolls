@@ -48,7 +48,7 @@
                 background: linear-gradient(135deg, #FFF1E0 0%, #FFE0CC 50%, #e69864 100%);
             }
             .bg-gradient-ai {
-                background: linear-gradient(135deg, #fcd4c3 0%, #f9c09b 50%, #fda468 100%);
+                background: linear-gradient(135deg, #FFF8F5 0%, #FFE0CC 50%, #FFB380 100%);
             }
             .text-gradient {
                 background-clip: text;
@@ -68,7 +68,7 @@
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <i class="fa fa-youtube-play text-warm-red text-2xl"></i>
-                <h1 class="text-xl font-bold text-gradient">视频分析助手</h1>
+                <h1 class="text-xl font-bold text-gradient">Before the Camera Rolls</h1>
             </div>
             <nav>
                 <ul class="flex space-x-6">
@@ -89,27 +89,25 @@
                 <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 sticky top-24 transition-all hover:shadow-md">
                     <h2 class="text-lg font-semibold mb-4 flex items-center">
                         <i class="fa fa-folder-open text-warm-red mr-2"></i>
-                        视频分类
+                        Video type
                     </h2>
                     <ul class="space-y-2">
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors active" data-category="sports">
-                            <i class="fa fa-futbol-o text-warm-red mr-2"></i> 体育运动
+                            <i class="fa fa-futbol-o text-warm-red mr-2"></i>SPORTS
                         </button></li>
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="education">
-                            <i class="fa fa-book text-warm-red mr-2"></i> 教育学习
+                            <i class="fa fa-book text-warm-red mr-2"></i>MOVIE
                         </button></li>
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="music">
-                            <i class="fa fa-music text-warm-red mr-2"></i> 音乐娱乐
+                            <i class="fa fa-music text-warm-red mr-2"></i>MUSIC
                         </button></li>
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="gaming">
-                            <i class="fa fa-gamepad text-warm-red mr-2"></i> 游戏电竞
+                            <i class="fa fa-gamepad text-warm-red mr-2"></i>GAME 
                         </button></li>
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="lifestyle">
-                            <i class="fa fa-coffee text-warm-red mr-2"></i> 生活方式
+                            <i class="fa fa-coffee text-warm-red mr-2"></i>COMING SOON...
                         </button></li>
-                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="tech">
-                            <i class="fa fa-laptop text-warm-red mr-2"></i> 科技数码
-                        </button></li>
+                      
                     </ul>
                 </div>
             </div>
@@ -119,51 +117,366 @@
                 <!-- 分析报告卡片 -->
                 <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 mb-6 transition-all hover:shadow-md">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold text-gradient" id="reportTitle">体育运动分析报告</h2>
+                        <h2 class="text-xl font-bold text-gradient" id="reportTitle">Sports video data visualization analysis</h2>
                         <span class="bg-warm-peach/30 text-warm-red px-3 py-1 rounded-full text-sm">
-                            <i class="fa fa-refresh mr-1"></i> 实时分析
+                            <i class="fa fa-refresh mr-1"></i> reload
                         </span>
                     </div>
                     
                     <!-- 数据概览 -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        <div class="bg-warm-peach/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
-                            <p class="text-sm text-gray-500 mb-1">平均观看量</p>
-                            <p class="text-2xl font-bold text-warm-red">1.2M</p>
-                            <p class="text-xs text-green-600 mt-1">
-                                <i class="fa fa-arrow-up"></i> 较上月增长 12%
-                            </p>
+                     <div class="max-w-6xl mx-auto">
+        <!-- 选项卡导航 -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+            <button onclick="showTab('publishTime')" id="tab-publishTime" class="tab-btn bg-warm-peach/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-peach/30">
+                <div class="flex flex-col items-center">
+                    <i class="fa fa-clock-o text-warm-red text-xl mb-2"></i>
+                    <p class="text-sm font-medium text-warm-red">PublishTime</p>
+                </div>
+            </button>
+            
+            <button onclick="showTab('tag')" id="tab-tag" class="tab-btn bg-warm-cream/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-cream/50">
+                <div class="flex flex-col items-center">
+                    <i class="fa fa-tags text-warm-red text-xl mb-2"></i>
+                    <p class="text-sm font-medium text-warm-red">Tag</p>
+                </div>
+            </button>
+            
+            <button onclick="showTab('description')" id="tab-description" class="tab-btn bg-warm-orange/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-orange/30">
+                <div class="flex flex-col items-center">
+                    <i class="fa fa-file-text text-warm-red text-xl mb-2"></i>
+                    <p class="text-sm font-medium text-warm-red">Description</p>
+                </div>
+            </button>
+            
+            <button onclick="showTab('title')" id="tab-title" class="tab-btn bg-warm-amber/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-amber/30">
+                <div class="flex flex-col items-center">
+                    <i class="fa fa-pencil-square-o text-warm-red text-xl mb-2"></i>
+                    <p class="text-sm font-medium text-warm-red">Title</p>
+                </div>
+            </button>
+            
+            <button onclick="showTab('duration')" id="tab-duration" class="tab-btn bg-warm-peach/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-peach/40">
+                <div class="flex flex-col items-center">
+                    <i class="fa fa-hourglass-half text-warm-red text-xl mb-2"></i>
+                    <p class="text-sm font-medium text-warm-red">Duration</p>
+                </div>
+            </button>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="bg-warm-cream/30 rounded-lg p-6 mb-6 transition-all hover:shadow-sm border border-warm-cream/50 min-h-[400px]">
+            <!-- 发布时间内容 -->
+            <div id="content-publishTime" class="tab-content content-enter">
+                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                    <i class="fa fa-clock mr-2"></i> Publish time analysis
+                </h3>
+                 <!-- 第一段文字 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <h2>Cluster Analysis Chart</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        This paper focuses on the time-clustering analysis of sports videos. The core is to explore the clustering
+        distribution of video releases under different time dimensions (weekday - hour and month - hour), as well as the
+        scale and performance differences of clustering.</p>
+                </div>
+
+                <!-- 第一张图片 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <div class="text-center">
+                        <img src="./sports/clustering_analysis.png" alt="聚类分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                        <p class="text-sm text-gray-500 mt-2">Cluster analysis: distribution of viewing behavior patterns</p>
+                    </div>
+                </div>
+
+                <!-- 第二段文字 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                     <ol>
+        <li>Top left and top right: you can see exactly where the clusters are located.</li>
+        <li>Lower left bar chart: although different “Time clustering” video posted by more or less people, but the
+            interactive effect points are not much difference.</li>
+        <li>Bottom - right pie chart: Cluster 2(Green) has the highest percentage (30.2%), indicating that this is the
+            most popular type of “Temporal clustering” for videos, proving that it really works and has a large
+            audience.</li>
+    </ol>
+     </ol>
+    <p>To get more people watching and interacting with sports videos, prioritize the first two charts to focus on
+        clusters, especially Cluster 2, from Monday to Wednesday, and from afternoon to evening in summer and fall.</p>
+
+                </div>
+
+                <!-- 第二张图片 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <div class="text-center">
+                        <img src="./sports/cyclical_pattern_analysis.png" alt="周期性模式分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                        <p class="text-sm text-gray-500 mt-2">周期性模式分析：观看时间的周期性变化</p>
+                    </div>
+                </div>
+
+                <!-- 第三段文字 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <h3>Week</h3>
+    <p>Wednesday, Thursday, the most popular weekend;</p>
+    <h3>In a day</h3>
+    <p>Afternoon to evening (12 - 18 o'clock) send the most people;</p>
+    <h3>Within a year</h3>
+    <p>July (summer) and the third quarter (july - september) are peak release seasons</p>
+    <h3>Weekday distribution</h3>
+    <p>
+Looking at the number of Weekday releases, you may find that the number of midweek (Tuesday - thursday) releases
+        is relatively stable, while the number of Friday and Saturday releases is up, and the number of Sunday releases
+        may be down slightly.
+</p>
+    <h3>Hour distribution</h3>
+    <p>
+At different hours of the day, the number of posts shows a clear periodicity. The number of posts usually reaches
+        a peak between 6 pm and 10 pm, which is consistent with people's daily schedule. Evening is the main time period
+        for people to relax and entertainment, and people pay more attention to sports videos. In the early morning, the
+        number of posts is very small.
+</p>
+    <h3>Month distribution</h3>
+    <p>
+In the dimension of Month, the number of releases in some months is larger, which may be related to the
+        arrangement of sports events and seasonal characteristics in that Month.
+</p>
+    <h3>Quarter Distribution</h3>
+    <p>On a quarterly basis, you may find a relatively high number of releases in Q2 and Q4.</p>
+
+                </div>
+
+                <div><h2>Early performance analysis chart</h2></div>
+
+                <!-- 第三张图片 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <div class="text-center">
+                        <img src="./sports/early_performance_analysis.png" alt="早期表现分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                        <p class="text-sm text-gray-500 mt-2">早期表现分析：发布后初期的数据表现</p>
+                    </div>
+                </div>
+
+                <!-- 第四段文字 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                   <p>
+Focus on the early stages of a sports video (probably the first few days or weeks after it's released), how
+        viewing and participation rates (likes, comments, shares, etc.) have changed over time.
+</p>
+    <h3>Viewing over time</h3>
+    <p>
+As you can see from the graph, after the release of the video, the amount of viewing may show a rapid upward
+        trend at the beginning, and then gradually flatten out or decline.
+</p>
+    <h3>The relationship between participation rate and time</h3>
+    <p>
+The change of participation rate (such as likes rate, comments rate) has a certain correlation with the number
+        of views, but also has its own characteristics.
+</p>
+                </div>
+
+                <div>
+                    <h2>Performance Heat diagram analysis chart</h2>
+                    <p>Through the form of heat map, the performance of sports videos in multiple dimensions (such as video length,
+        release time, video type, etc.) is shown.</p>
+                </div>
+                <!-- 第四张图片 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <div class="text-center">
+                        <img src="./sports/performance_heatmap_analysis.png" alt="表现热图分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                        <p class="text-sm text-gray-500 mt-2">表现热图分析：不同时间段的表现对比</p>
+                    </div>
+                </div>
+
+                <!-- 第五段文字 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <h3>Top left: Weekday - Hour Engagement Rate Heatmap</h3>
+    <p>
+High Interaction Time: weekdays, Wednesday (≈2 on the vertical axis), Thursday (≈3 on the vertical axis) at 10 -
+        20 p.m. (10 - 20 on the horizontal axis), color dark red: day to night for both days, audience interaction
+        (likes, comments, shares) is most active.
+</p>
+    <p>
+Low interaction time: Monday (vertical axis ≈0), Sunday (vertical axis ≈6) in the early hours of the morning
+        (horizontal axis 0 - 5), color light white: these two times the video, audience interaction is less.
+</p>
+    <h3>Top Right: Month - weekday Engagement Rate Heatmap</h3>
+    <p>
+High Interaction Month + week: Wednesday in July (vertical axis ≈6)(horizontal axis ≈2), color dark red -LRB -
+        value 1.3WednesdaysdayJulyjuly, audience interaction is extremely high.
+</p>
+    <p>
+Low Interaction Month + week: Monday in January (vertical axis ≈0), Monday in December (vertical axis ≈11)(
+        horizontal axis ≈0), light pink color, Mondays at the beginning and end of the year, low audience interaction
+        intention.
+</p>
+    <h3>Bottom left: Controlled Weekday - Hour Performance heat map</h3>
+    <p>
+High Performance: Tuesday (vertical axis ≈1), Wednesday (vertical axis ≈2)10 - 20 points (horizontal axis 10 -
+        20), color deep purple: these two days of day to night, the video overall performance is the best.
+</p>
+    <p>
+Low - performance hours: Monday (vertical axis ≈0), Sunday (vertical axis ≈6) in the early hours of the morning
+        (horizontal axis 0 - 5 - RRB -, color light blue: these two hours to send video, even if there is a stream, the
+        audience may be half - way to watch and leave, poor distribution of content.
+</p>
+    <h3>Bottom right: Month - hour Daily View Rate Heatmap</h3>
+    <p>
+High - day viewing times: 10 - 20 p.m. (X - axis 10 - 20) in July (y - axis ≈6), August (y - axis ≈7), dark
+        green: daytime to evening in summer (July - august), highest daily video viewing.
+</p>
+    <p>
+Low - day viewing times: early morning in January (vertical axis ≈0), December (vertical axis ≈11)(horizontal
+        axis 0 - 5), light green: Early and late morning, almost no one watches the video.
+</p>
+
+                </div>
+
+                <!-- 第五张图片 -->
+                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                    <div class="text-center">
+                        <img src="./sports/time_series_analysis.png" alt="时间序列分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                        <p class="text-sm text-gray-500 mt-2">时间序列分析：观看量的时间变化趋势</p>
+                    </div>
+                </div>
+
+                <!-- 总结文字 -->
+                <div class="bg-gradient-warm rounded-lg p-4 border border-warm-peach/30">
+                    <p class="text-gray-700 leading-relaxed">
+                        例如，综合分析结果表明，最佳发布时间为工作日18:00-20:00和周末14:00-16:00。这些时间段能够最大化视频的初始曝光和长期表现。建议根据这些数据调整发布策略，以获得最佳的观看效果。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 标签内容 -->
+            <div id="content-tag" class="tab-content hidden">
+                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                    <i class="fa fa-tags mr-2"></i> 标签优化
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-cream/50">
+                        <div class="text-center mb-4">
+                            <i class="fa fa-hashtag text-warm-red text-6xl mb-2"></i>
+                            <h4 class="font-medium text-gray-700">热门标签</h4>
                         </div>
-                        <div class="bg-warm-cream/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
-                            <p class="text-sm text-gray-500 mb-1">平均时长</p>
-                            <p class="text-2xl font-bold text-warm-red">8.5min</p>
-                            <p class="text-xs text-green-600 mt-1">
-                                <i class="fa fa-arrow-up"></i> 较上月增长 3%
-                            </p>
-                        </div>
-                        <div class="bg-warm-orange/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
-                            <p class="text-sm text-gray-500 mb-1">观看完成率</p>
-                            <p class="text-2xl font-bold text-warm-red">92%</p>
-                            <p class="text-xs text-red-500 mt-1">
-                                <i class="fa fa-arrow-down"></i> 较上月下降 2%
-                            </p>
-                        </div>
-                        <div class="bg-warm-amber/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
-                            <p class="text-sm text-gray-500 mb-1">平均点赞</p>
-                            <p class="text-2xl font-bold text-warm-red">15.2K</p>
-                            <p class="text-xs text-green-600 mt-1">
-                                <i class="fa fa-arrow-up"></i> 较上月增长 8%
-                            </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-warm-red/10 text-warm-red px-3 py-1 rounded-full text-sm">#体育</span>
+                            <span class="bg-warm-red/10 text-warm-red px-3 py-1 rounded-full text-sm">#健身</span>
+                            <span class="bg-warm-red/10 text-warm-red px-3 py-1 rounded-full text-sm">#运动</span>
+                            <span class="bg-warm-red/10 text-warm-red px-3 py-1 rounded-full text-sm">#教学</span>
                         </div>
                     </div>
-                    
-                    <!-- 图表 -->
-                    <div class="bg-warm-cream/30 rounded-lg p-4 mb-6 transition-all hover:shadow-sm">
-                        <h3 class="text-md font-semibold mb-3 text-warm-red">观看量趋势</h3>
-                        <div class="h-64 bg-white/80 rounded-lg p-4 flex items-center justify-center border border-warm-peach/30">
-                            <p class="text-gray-400">📊 图表将在这里显示</p>
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-cream/50">
+                        <p class="text-gray-700 leading-relaxed">
+                            使用相关性高的标签能提升视频的搜索排名。建议每个视频使用5-8个标签，包含主要关键词和长尾关键词。避免使用过于宽泛或与内容无关的标签。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 描述内容 -->
+            <div id="content-description" class="tab-content hidden">
+                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                    <i class="fa fa-file-text mr-2"></i> 描述优化
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-orange/30">
+                        <div class="text-center mb-4">
+                            <i class="fa fa-edit text-warm-red text-6xl mb-2"></i>
+                            <h4 class="font-medium text-gray-700">描述要点</h4>
+                        </div>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>前50字包含关键信息</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>包含相关关键词</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>添加行动号召</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-orange/30">
+                        <p class="text-gray-700 leading-relaxed">
+                            视频描述是搜索引擎优化的重要因素。好的描述应该简洁明了，在前50个字符内概括视频核心内容，同时自然融入关键词，并在结尾加入订阅、点赞等行动号召。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标题内容 -->
+            <div id="content-title" class="tab-content hidden">
+                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                    <i class="fa fa-heading mr-2"></i> 标题优化
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-amber/30">
+                        <div class="text-center mb-4">
+                            <i class="fa fa-trophy text-warm-red text-6xl mb-2"></i>
+                            <h4 class="font-medium text-gray-700">优质标题特征</h4>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-warm-red rounded-full mr-2"></span>
+                                <span class="text-sm">长度控制在60字符内</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-warm-red rounded-full mr-2"></span>
+                                <span class="text-sm">包含数字和具体信息</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-warm-red rounded-full mr-2"></span>
+                                <span class="text-sm">使用情感词汇</span>
+                            </div>
                         </div>
                     </div>
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-amber/30">
+                        <p class="text-gray-700 leading-relaxed">
+                            标题是吸引观众点击的第一要素。有效的标题应该准确描述内容，激发好奇心，并包含关键词以提升搜索排名。避免使用夸大或误导性的表述，保持真实性。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时长内容 -->
+            <div id="content-duration" class="tab-content hidden">
+                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                    <i class="fa fa-hourglass-half mr-2"></i> 时长分析
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-peach/40">
+                        <div class="text-center mb-4">
+                            <i class="fa fa-clock text-warm-red text-6xl mb-2"></i>
+                            <h4 class="font-medium text-gray-700">最佳时长区间</h4>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-warm-peach/20 rounded-lg p-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">教学类</span>
+                                    <span class="text-warm-red font-bold">8-12分钟</span>
+                                </div>
+                            </div>
+                            <div class="bg-warm-peach/20 rounded-lg p-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">娱乐类</span>
+                                    <span class="text-warm-red font-bold">3-6分钟</span>
+                                </div>
+                            </div>
+                            <div class="bg-warm-peach/20 rounded-lg p-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">深度解析</span>
+                                    <span class="text-warm-red font-bold">15-20分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 rounded-lg p-4 border border-warm-peach/40">
+                        <p class="text-gray-700 leading-relaxed">
+                            视频时长直接影响观看完成率和用户参与度。不同类型的内容有不同的最佳时长。关键是确保内容密度适中，避免冗长的开场和结尾，让每一分钟都有价值。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
                     
                     <!-- 洞察 -->
                     <div class="bg-gradient-warm rounded-lg p-4 border border-white/50">
@@ -443,6 +756,40 @@
                 header.classList.remove("py-2", "shadow");
             }
         });
+
+        // 默认显示发布时间内容
+        let currentTab = 'publishTime';
+        
+        function showTab(tabName) {
+            // 隐藏所有内容
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // 重置所有按钮状态
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+            
+            // 显示选中的内容
+            const activeContent = document.getElementById('content-' + tabName);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+                activeContent.classList.add('content-enter');
+            }
+            
+            // 激活选中的按钮
+            const activeButton = document.getElementById('tab-' + tabName);
+            if (activeButton) {
+                activeButton.classList.add('tab-active');
+            }
+            
+            currentTab = tabName;
+        }
+
+        
     </script>
 </body>
 </html>
