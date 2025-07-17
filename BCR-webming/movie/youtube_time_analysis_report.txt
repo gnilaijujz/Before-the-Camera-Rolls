@@ -1,0 +1,31 @@
+
+🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
+   YouTube Movie Video Publication Time Analysis Report
+🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
+
+📊 Data Overview:
+  Number of videos analyzed: 2,617
+  Time span: 2024-01-01 to 2025-07-09
+  Total duration: 555 days
+
+🔍 Key Findings:
+  📈 Most active publication time: Wed 13h, Mar
+  🏆 Best performance time: Mon 4h (Engagement rate: 178.2568)
+  📅 Weekday publication ratio: 75.4%
+  🌙 Night publication ratio: 18.5%
+  🔬 Best time after controlled variables: Sun 4h
+  ⚖️ Raw vs controlled analysis: Hour consistent, Weekday inconsistent
+  📊 Hour distribution significance: significant (p=0.0000)
+
+💡 Core Recommendations:
+  1. Focus on publishing at Sun 4h
+  2. Avoid peak publication times, find blue ocean time slots
+  3. Establish A/B testing to verify optimal times
+  4. Monitor long-term trend changes
+
+📈 Expected Impact:
+  Current average engagement rate: 6.7120
+  Best time engagement rate: 178.2568
+  Potential improvement: 2555.8%
+
+🎉 Analysis complete! Recommend saving this report for publication strategy reference.
