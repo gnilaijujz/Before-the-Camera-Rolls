@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube视频分析助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // 红白橙黄色系
+                        warm: {
+                            white: '#FFF8F5',      // 暖白色（替代纯白）
+                            cream: '#FFF1E0',     // 奶油色
+                            peach: '#FFE0CC',     // 桃色
+                            orange: '#FFB380',    // 橙色
+                            coral: '#FF8A5C',     // 珊瑚色
+                            red: '#FF5A36',       // 红色
+                            amber: '#FFC857',     // 琥珀黄
+                            gold: '#E6B325',      // 金色
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .bg-gradient-warm {
+                background: linear-gradient(135deg, #FFF1E0 0%, #FFE0CC 50%, #e69864 100%);
+            }
+            .bg-gradient-ai {
+                background: linear-gradient(135deg, #fcd4c3 0%, #f9c09b 50%, #fda468 100%);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(135deg, #FF5A36 0%, #FF8A5C 50%, #FFB380 100%);
+            }
+            .animate-pulse-soft {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-warm-white text-gray-800 min-h-screen flex flex-col">
+    <!-- 顶部导航 -->
+    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-youtube-play text-warm-red text-2xl"></i>
+                <h1 class="text-xl font-bold text-gradient">视频分析助手</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">首页</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">分析</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">建议</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">帮助</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 左侧分类 -->
+            <div class="lg:col-span-1">
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 sticky top-24 transition-all hover:shadow-md">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fa fa-folder-open text-warm-red mr-2"></i>
+                        视频分类
+                    </h2>
+                    <ul class="space-y-2">
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors active" data-category="sports">
+                            <i class="fa fa-futbol-o text-warm-red mr-2"></i> 体育运动
+                        </button></li>
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="education">
+                            <i class="fa fa-book text-warm-red mr-2"></i> 教育学习
+                        </button></li>
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="music">
+                            <i class="fa fa-music text-warm-red mr-2"></i> 音乐娱乐
+                        </button></li>
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="gaming">
+                            <i class="fa fa-gamepad text-warm-red mr-2"></i> 游戏电竞
+                        </button></li>
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="lifestyle">
+                            <i class="fa fa-coffee text-warm-red mr-2"></i> 生活方式
+                        </button></li>
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="tech">
+                            <i class="fa fa-laptop text-warm-red mr-2"></i> 科技数码
+                        </button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 右侧内容 -->
+            <div class="lg:col-span-2">
+                <!-- 分析报告卡片 -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 mb-6 transition-all hover:shadow-md">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gradient" id="reportTitle">体育运动分析报告</h2>
+                        <span class="bg-warm-peach/30 text-warm-red px-3 py-1 rounded-full text-sm">
+                            <i class="fa fa-refresh mr-1"></i> 实时分析
+                        </span>
+                    </div>
+                    
+                    <!-- 数据概览 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-warm-peach/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
+                            <p class="text-sm text-gray-500 mb-1">平均观看量</p>
+                            <p class="text-2xl font-bold text-warm-red">1.2M</p>
+                            <p class="text-xs text-green-600 mt-1">
+                                <i class="fa fa-arrow-up"></i> 较上月增长 12%
+                            </p>
+                        </div>
+                        <div class="bg-warm-cream/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
+                            <p class="text-sm text-gray-500 mb-1">平均时长</p>
+                            <p class="text-2xl font-bold text-warm-red">8.5min</p>
+                            <p class="text-xs text-green-600 mt-1">
+                                <i class="fa fa-arrow-up"></i> 较上月增长 3%
+                            </p>
+                        </div>
+                        <div class="bg-warm-orange/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
+                            <p class="text-sm text-gray-500 mb-1">观看完成率</p>
+                            <p class="text-2xl font-bold text-warm-red">92%</p>
+                            <p class="text-xs text-red-500 mt-1">
+                                <i class="fa fa-arrow-down"></i> 较上月下降 2%
+                            </p>
+                        </div>
+                        <div class="bg-warm-amber/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300">
+                            <p class="text-sm text-gray-500 mb-1">平均点赞</p>
+                            <p class="text-2xl font-bold text-warm-red">15.2K</p>
+                            <p class="text-xs text-green-600 mt-1">
+                                <i class="fa fa-arrow-up"></i> 较上月增长 8%
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 图表 -->
+                    <div class="bg-warm-cream/30 rounded-lg p-4 mb-6 transition-all hover:shadow-sm">
+                        <h3 class="text-md font-semibold mb-3 text-warm-red">观看量趋势</h3>
+                        <div class="h-64 bg-white/80 rounded-lg p-4 flex items-center justify-center border border-warm-peach/30">
+                            <p class="text-gray-400">📊 图表将在这里显示</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 洞察 -->
+                    <div class="bg-gradient-warm rounded-lg p-4 border border-white/50">
+                        <h3 class="text-md font-semibold mb-2 flex items-center">
+                            <i class="fa fa-lightbulb-o text-warm-red mr-2"></i> 数据洞察
+                        </h3>
+                        <p class="text-gray-700">体育类视频在周末的观看量比工作日高出35%，建议在周五-周日发布重要内容。同时，视频时长控制在8-12分钟之间可获得最佳观看体验。</p>
+                    </div>
+                </div>
+                
+                <!-- 星火AI助手卡片 -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 transition-all hover:shadow-md overflow-hidden relative">
+                    <!-- 装饰元素 -->
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-warm-orange/10 rounded-full blur-3xl"></div>
+                    <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-warm-red/5 rounded-full blur-3xl"></div>
+                    
+                    <div class="flex items-center mb-4 relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-ai flex items-center justify-center text-warm-red shadow-md animate-pulse-soft">
+                            <i class="fa fa-robot text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold ml-3 text-gradient">AI analysis assistant</h2>
+                    </div>
+                    
+                    <!-- 对话区域 -->
+                    <div id="chatContainer" class="bg-gradient-ai rounded-xl p-4 h-[400px] overflow-y-auto scrollbar-hide mb-4 relative z-10">
+                        <div class="mb-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-gradient-ai flex items-center justify-center text-warm-red mr-2 shadow-sm">
+                                    <i class="fa fa-robot"></i>
+                                </div>
+                                <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%]">
+                                    <p class="text-gray-700">Hello! I'm your AI video analysis assistant. I can help you analyze video data, provide optimization suggestions, and answer questions. Is there anything I can do for you?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 对话内容将在这里动态添加 -->
+                    </div>
+                    
+                    <!-- 输入区域 -->
+                    <div class="flex gap-3 relative z-10">
+                        <input 
+                            type="text" 
+                            id="userInput" 
+                            placeholder="Input a question, for example: Analyze my video data" 
+                            class="flex-1 px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-warm-peach/30 focus:outline-none focus:ring-2 focus:ring-warm-red/30 focus:border-warm-red transition-all"
+                        >
+                        <button 
+                            id="sendButton" 
+                            class="bg-gradient-ai text-warm-red px-6 py-3 rounded-lg hover:shadow-lg hover:shadow-warm-orange/20 transition-all flex items-center font-medium"
+                        >
+                            <i class="fa fa-paper-plane mr-2"></i> Send Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-warm-cream/50 text-gray-700 py-8 mt-12 border-t border-warm-peach/30">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-gradient">视频分析助手</h3>
+                    <p class="text-gray-600">使用AI技术帮助你优化YouTube视频内容，提高观看量和互动率。</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">首页</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">分析工具</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">帮助中心</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">关注我们</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center text-gray-600 hover:bg-warm-peach hover:text-warm-red transition-all shadow-sm">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center text-gray-600 hover:bg-warm-peach hover:text-warm-red transition-all shadow-sm">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center text-gray-600 hover:bg-warm-peach hover:text-warm-red transition-all shadow-sm">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center text-gray-600 hover:bg-warm-peach hover:text-warm-red transition-all shadow-sm">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-warm-peach/30 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 视频分析助手 | 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 连接后端WebSocket服务
+        const socket = new WebSocket("ws://localhost:8765");
+        const chatContainer = document.getElementById("chatContainer");
+        const userInput = document.getElementById("userInput");
+        const sendButton = document.getElementById("sendButton");
+        const reportTitle = document.getElementById("reportTitle");
+        const categoryButtons = document.querySelectorAll(".category-btn");
+        
+        // 模拟分类数据
+        const categoryData = {
+            sports: { title: "体育运动分析报告" },
+            education: { title: "教育学习分析报告" },
+            music: { title: "音乐娱乐分析报告" },
+            gaming: { title: "游戏电竞分析报告" },
+            lifestyle: { title: "生活方式分析报告" },
+            tech: { title: "科技数码分析报告" }
+        };
+        
+        // 处理分类切换
+        categoryButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                // 更新选中状态
+                categoryButtons.forEach(btn => btn.classList.remove("active", "bg-warm-peach/30"));
+                button.classList.add("active", "bg-warm-peach/30");
+                
+                // 更新报告标题
+                const category = button.dataset.category;
+                reportTitle.textContent = categoryData[category].title;
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        });
+        
+        // 发送用户消息
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // 添加用户消息到对话
+            addMessage("user", message);
+            
+            // 发送消息到后端
+            socket.send(message);
+            
+            // 清空输入框
+            userInput.value = "";
+        }
+        
+        // 添加消息到对话区域
+        function addMessage(type, content) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = "mb-4";
+            
+            let html = "";
+            
+            if (type === "user") {
+                html = `
+                    <div class="flex items-start justify-end">
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%]">
+                            <p class="text-gray-700">${escapeHTML(content)}</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-warm-cream flex items-center justify-center text-warm-red ml-2 shadow-sm">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                `;
+            } else if (type === "ai") {
+                html = `
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 rounded-full bg-gradient-ai flex items-center justify-center text-warm-red mr-2 shadow-sm">
+                            <i class="fa fa-robot"></i>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%]">
+                            <p class="text-gray-700">${escapeHTML(content)}</p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === "error") {
+                html = `
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 rounded-full bg-warm-peach/50 flex items-center justify-center text-warm-red mr-2 shadow-sm">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%] border border-warm-peach/30">
+                            <p class="text-warm-red">${escapeHTML(content)}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            messageDiv.innerHTML = html;
+            chatContainer.appendChild(messageDiv);
+            
+            // 滚动到底部
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.createElement("div");
+            notification.className = `fixed top-6 right-6 px-4 py-3 rounded-lg shadow-lg z-50 transition-all duration-500 transform translate-x-full`;
+            
+            if (type === "success") {
+                notification.classList.add("bg-warm-amber/30", "text-amber-800", "border", "border-warm-amber/50");
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+            } else {
+                notification.classList.add("bg-warm-peach/30", "text-warm-red", "border", "border-warm-peach/50");
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fa fa-exclamation-circle mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+            }
+            
+            document.body.appendChild(notification);
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.classList.remove("translate-x-full");
+            }, 100);
+            
+            // 自动关闭
+            setTimeout(() => {
+                notification.classList.add("translate-x-full");
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 5000);
+        }
+        
+        // 转义HTML特殊字符
+        function escapeHTML(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        
+        // 绑定事件
+        sendButton.addEventListener("click", sendMessage);
+        userInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+        
+        // WebSocket连接处理
+        socket.onopen = () => showNotification("已连接到AI助手", "success");
+        socket.onclose = () => showNotification("与AI助手的连接已断开，尝试重新连接中...", "error");
+        socket.onerror = (error) => showNotification("连接错误，请检查后端服务", "error");
+        
+        socket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === "response") addMessage("ai", data.content);
+                else if (data.type === "error") addMessage("error", data.content);
+            } catch (e) {
+                addMessage("ai", event.data);
+            }
+        };
+        
+        // 导航栏滚动效果
+        window.addEventListener("scroll", () => {
+            const header = document.querySelector("header");
+            if (window.scrollY > 20) {
+                header.classList.add("py-2", "shadow");
+                header.classList.remove("py-3");
+            } else {
+                header.classList.add("py-3");
+                header.classList.remove("py-2", "shadow");
+            }
+        });
+    </script>
+</body>
+</html>
