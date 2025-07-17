@@ -1,0 +1,16 @@
+============================================================
+Title Impact on Popularity Report
+============================================================
+
+Generated on: 2025-07-18 00:22:14
+Total videos: 2776
+Short videos: 2471
+Medium videos: 142
+Long videos: 163
+
+Model performance:
+  Short – R² 0.033 (±0.051), RMSE 2883.00, n=2471
+  Medium – R² 0.207 (±1.095), RMSE 188.91, n=142
+  Long – R² 0.062 (±0.687), RMSE 331.70, n=163
+
+See PNGs & CSV for details.
