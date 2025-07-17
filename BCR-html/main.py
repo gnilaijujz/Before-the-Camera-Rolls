@@ -10,8 +10,24 @@ import time  # 添加时间模块导入
 API_KEY = "Bearer LUKPbgPcUBLzhjwNYDZD:sJduuCDURqeqSWSaRxmi"
 API_URL = "https://spark-api-open.xf-yun.com/v1/chat/completions"
 
+def load_analysis_report():
+    """读取 YouTube 分析报告的 TXT 文件内容"""
+    report_path = "youtube_time_analysis_report.txt"  # 你的报告文件路径，可根据实际调整
+    try:
+        with open(report_path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        print(f"警告：分析报告文件 {report_path} 未找到")
+        return ""
+    except Exception as e:
+        print(f"读取报告文件出错：{e}")
+        return ""
+    
+ANALYSIS_REPORT_CONTENT = load_analysis_report()
+
 # 用户会话管理
 user_sessions: Dict[str, Dict] = {}
+
 
 async def handle_connection(websocket, path):
     user_id = str(id(websocket))
@@ -50,6 +66,23 @@ async def call_spark_api(user_id: str) -> None:
     """调用星火API并处理流式响应"""
     messages = user_sessions[user_id]["messages"]
     
+    # 构建包含分析报告内容的系统提示
+    system_prompt = {
+        "role": "system",
+        "content": f"""
+你现在需要基于这份 YouTube 分析报告内容来回答用户问题，报告内容如下：
+{ANALYSIS_REPORT_CONTENT}
+
+请严格依据报告信息，为用户提供准确解答，注意：
+1. 输出要简洁清晰，用自然换行分隔段落和关键点；
+2. 避免使用多余的 markdown 标记（如 ###、*** 等）；
+3. 按逻辑分段，让内容易读。
+"""
+    }
+    # 将系统提示插入到 messages 最前面，作为大模型参考的上下文
+    messages = [system_prompt] +messages
+
+
     # 清空缓冲区
     user_sessions[user_id]["buffer"] = []
     user_sessions[user_id]["last_chunk"] = ""
@@ -108,6 +141,10 @@ async def call_spark_api(user_id: str) -> None:
             # 合并缓冲区内容并一次性发送
             full_response = ' '.join(user_sessions[user_id]["buffer"])
             
+            # 【新增】格式化响应内容
+            full_response = format_response(full_response)  # <<< 调用格式化函数
+    
+
             # 添加AI回复到会话历史
             user_sessions[user_id]["messages"].append({
                 "role": "assistant",
@@ -168,6 +205,29 @@ async def send_error(user_id: str, message: str) -> None:
             }))
         except:
             pass
+
+def format_response(text: str) -> str:
+    """
+    格式化大模型响应，优化换行和排版：
+    1. 替换多余的 markdown 标记（###、*** 等）
+    2. 按句子/逻辑分段，添加合理换行
+    3. 去掉不必要的符号，让内容更清晰
+    """
+    # 1. 替换 markdown 标记（根据实际输出调整）
+    text = re.sub(r'###+', '\n\n', text)  # 替换 ### 为换行
+    text = re.sub(r'\*\*', '', text)      # 去掉 ** 强调标记
+    text = re.sub(r'#', '', text)        # 去掉多余的 #
+    
+    # 2. 按标点符号分段（句号、问号、感叹号后换行）
+    text = re.sub(r'([。！？\.\?!])', r'\1\n', text)
+    
+    # 3. 合并多余空行，保证最多连续两个换行
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    
+    # 4. 去掉首尾空白
+    text = text.strip()
+    
+    return text
 
 # 启动WebSocket服务
 start_server = websockets.serve(handle_connection, "localhost", 8765)
