@@ -1,0 +1,16 @@
+============================================================
+Music Title Impact on Popularity Report
+============================================================
+
+Generated on: 2025-07-18 13:44:07
+Total music videos: 2541
+Short music videos: 2068
+Medium music videos: 313
+Long music videos: 160
+
+Model performance:
+  Short – R² -0.214 (±0.632), RMSE 1138.11, n=2068
+  Medium – R² -0.035 (±20.498), RMSE 3501.06, n=313
+  Long – R² -3.273 (±10.141), RMSE 212.54, n=160
+
+See PNGs & CSV for details.

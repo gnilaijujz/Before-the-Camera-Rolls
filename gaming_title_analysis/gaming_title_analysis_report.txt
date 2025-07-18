@@ -1,0 +1,16 @@
+============================================================
+Gaming Title Impact on Popularity Report
+============================================================
+
+Generated on: 2025-07-18 14:03:17
+Total gaming videos: 2682
+Short gaming videos: 2113
+Medium gaming videos: 368
+Long gaming videos: 201
+
+Model performance:
+  Short – R² 0.076 (±0.632), RMSE 2505.93, n=2113
+  Medium – R² -0.280 (±15.562), RMSE 257.41, n=368
+  Long – R² 0.204 (±0.331), RMSE 171.48, n=201
+
+See PNGs & CSV for details.

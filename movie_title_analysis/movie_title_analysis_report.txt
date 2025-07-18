@@ -1,0 +1,16 @@
+============================================================
+Movie Title Impact on Popularity Report
+============================================================
+
+Generated on: 2025-07-18 14:06:26
+Total movie videos: 2617
+Short movie videos: 2221
+Medium movie videos: 135
+Long movie videos: 261
+
+Model performance:
+  Short – R² -0.042 (±0.228), RMSE 2007.13, n=2221
+  Medium – R² -0.475 (±1.160), RMSE 602.98, n=135
+  Long – R² -9.823 (±5.808), RMSE 1386.89, n=261
+
+See PNGs & CSV for details.
