@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube视频分析助手</title>
+    <title>Before the Camera Rolls</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
     <script>
@@ -60,6 +61,45 @@
                 animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             }
         }
+
+        
+        .markdown-content h2 {
+            color: #FF5A36;
+            font-size: 1.25rem;
+            margin: 1em 0 0.5em;
+        }
+
+        .markdown-content h2, 
+        .markdown-content h3 {
+            color: #FF5A36;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .markdown-content ul {
+            list-style-type: disc;
+            padding-left: 1.5em;
+        } 
+
+        .markdown-content ol {
+            padding-left: 1.5em;
+            margin-bottom: 1em;
+        }
+        .markdown-content li {
+            margin-bottom: 0.5em;
+        }
+        .markdown-content code {
+            background: #FFF1E0;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+
+        .markdown-content pre {
+            background: #FFF8F5;
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
     </style>
 </head>
 <body class="font-inter bg-warm-white text-gray-800 min-h-screen flex flex-col">
@@ -70,14 +110,6 @@
                 <i class="fa fa-youtube-play text-warm-red text-2xl"></i>
                 <h1 class="text-xl font-bold text-gradient">Before the Camera Rolls</h1>
             </div>
-            <nav>
-                <ul class="flex space-x-6">
-                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">首页</a></li>
-                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">分析</a></li>
-                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">建议</a></li>
-                    <li><a href="#" class="text-gray-600 hover:text-warm-red transition-colors">帮助</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
@@ -95,7 +127,7 @@
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors active" data-category="sports">
                             <i class="fa fa-futbol-o text-warm-red mr-2"></i>SPORTS
                         </button></li>
-                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="education">
+                        <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="movie">
                             <i class="fa fa-book text-warm-red mr-2"></i>MOVIE
                         </button></li>
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="music">
@@ -107,7 +139,6 @@
                         <li><button class="category-btn w-full text-left py-2 px-4 rounded-lg hover:bg-warm-peach/30 transition-colors" data-category="lifestyle">
                             <i class="fa fa-coffee text-warm-red mr-2"></i>COMING SOON...
                         </button></li>
-                      
                     </ul>
                 </div>
             </div>
@@ -118,544 +149,563 @@
                 <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 mb-6 transition-all hover:shadow-md">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-bold text-gradient" id="reportTitle">Sports video data visualization analysis</h2>
-                        <span class="bg-warm-peach/30 text-warm-red px-3 py-1 rounded-full text-sm">
-                            <i class="fa fa-refresh mr-1"></i> reload
-                        </span>
+                        
                     </div>
                     
                     <!-- 数据概览 -->
-                     <div class="max-w-6xl mx-auto">
-        <!-- 选项卡导航 -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-            <button onclick="showTab('publishTime')" id="tab-publishTime" class="tab-btn bg-warm-peach/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-peach/30">
-                <div class="flex flex-col items-center">
-                    <i class="fa fa-clock-o text-warm-red text-xl mb-2"></i>
-                    <p class="text-sm font-medium text-warm-red">PublishTime</p>
-                </div>
-            </button>
-            
-            <button onclick="showTab('tag')" id="tab-tag" class="tab-btn bg-warm-cream/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-cream/50">
-                <div class="flex flex-col items-center">
-                    <i class="fa fa-tags text-warm-red text-xl mb-2"></i>
-                    <p class="text-sm font-medium text-warm-red">Tag</p>
-                </div>
-            </button>
-            
-            <button onclick="showTab('description')" id="tab-description" class="tab-btn bg-warm-orange/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-orange/30">
-                <div class="flex flex-col items-center">
-                    <i class="fa fa-file-text text-warm-red text-xl mb-2"></i>
-                    <p class="text-sm font-medium text-warm-red">Description</p>
-                </div>
-            </button>
-            
-            <button onclick="showTab('title')" id="tab-title" class="tab-btn bg-warm-amber/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-amber/30">
-                <div class="flex flex-col items-center">
-                    <i class="fa fa-pencil-square-o text-warm-red text-xl mb-2"></i>
-                    <p class="text-sm font-medium text-warm-red">Title</p>
-                </div>
-            </button>
-            
-            <button onclick="showTab('duration')" id="tab-duration" class="tab-btn bg-warm-peach/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-peach/40">
-                <div class="flex flex-col items-center">
-                    <i class="fa fa-hourglass-half text-warm-red text-xl mb-2"></i>
-                    <p class="text-sm font-medium text-warm-red">Duration</p>
-                </div>
-            </button>
-        </div>
+                    <div class="max-w-6xl mx-auto">
+                        <!-- 选项卡导航 -->
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+                            <button onclick="showTab('publishTime')" id="tab-publishTime" class="tab-btn bg-warm-peach/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-peach/30">
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-clock-o text-warm-red text-xl mb-2"></i>
+                                    <p class="text-sm font-medium text-warm-red">PublishTime</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="showTab('tag')" id="tab-tag" class="tab-btn bg-warm-cream/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-cream/50">
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-tags text-warm-red text-xl mb-2"></i>
+                                    <p class="text-sm font-medium text-warm-red">Tag</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="showTab('description')" id="tab-description" class="tab-btn bg-warm-orange/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-orange/30">
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-file-text text-warm-red text-xl mb-2"></i>
+                                    <p class="text-sm font-medium text-warm-red">Description</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="showTab('title')" id="tab-title" class="tab-btn bg-warm-amber/20 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-amber/30">
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-pencil-square-o text-warm-red text-xl mb-2"></i>
+                                    <p class="text-sm font-medium text-warm-red">Title</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="showTab('duration')" id="tab-duration" class="tab-btn bg-warm-peach/30 rounded-lg p-4 transition-all hover:shadow-sm transform hover:-translate-y-1 duration-300 border border-warm-peach/40">
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-hourglass-half text-warm-red text-xl mb-2"></i>
+                                    <p class="text-sm font-medium text-warm-red">Duration</p>
+                                </div>
+                            </button>
+                        </div>
 
-        <!-- 内容容器 -->
-        <div class="bg-warm-cream/30 rounded-lg p-6 mb-6 transition-all hover:shadow-sm border border-warm-cream/50 min-h-[400px]">
-            <!-- 发布时间内容 -->
-            <div id="content-publishTime" class="tab-content content-enter">
-                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
-                    <i class="fa fa-clock mr-2"></i> Publish Time Analysis
-                </h3>
-                 <!-- 第一段文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <h2>Cluster Analysis Chart</h2>
-                    <p class="text-gray-700 leading-relaxed">
-                        This paper focuses on the time-clustering analysis of sports videos. The core is to explore the clustering
-        distribution of video releases under different time dimensions (weekday - hour and month - hour), as well as the
-        scale and performance differences of clustering.</p>
-                </div>
+                        <!-- 内容容器 -->
+                        <div class="bg-warm-cream/30 rounded-lg p-6 mb-6 transition-all hover:shadow-sm border border-warm-cream/50 min-h-[400px]">
+                            <!-- 发布时间内容 -->
+                            <div id="content-publishTime" class="tab-content content-enter">
+                                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                                    <i class="fa fa-clock mr-2"></i> Publish Time Analysis
+                                </h3>
+                                <!-- 第一段文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <h2>Cluster Analysis Chart</h2>
+                                    <p class="text-gray-700 leading-relaxed">
+                                        This paper focuses on the time-clustering analysis of sports videos. The core is to explore the clustering
+                                        distribution of video releases under different time dimensions (weekday - hour and month - hour), as well as the
+                                        scale and performance differences of clustering.
+                                    </p>
+                                </div>
 
-                <!-- 第一张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/PublishTime/clustering_analysis.png" alt="聚类分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Cluster analysis: distribution of viewing behavior patterns</p>
-                    </div>
-                </div>
+                                <!-- 第一张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="publishTime-img1" src="./Sports/PublishTime/clustering_analysis.png" alt="聚类分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Cluster analysis: distribution of viewing behavior patterns</p>
+                                    </div>
+                                </div>
 
-                <!-- 第二段文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                     <ol>
-        <li>Top left and top right: you can see exactly where the clusters are located.</li>
-        <li>Lower left bar chart: although different “Time clustering” video posted by more or less people, but the
-            interactive effect points are not much difference.</li>
-        <li>Bottom - right pie chart: Cluster 2(Green) has the highest percentage (30.2%), indicating that this is the
-            most popular type of “Temporal clustering” for videos, proving that it really works and has a large
-            audience.</li>
-    </ol>
-     </ol>
-    <p>To get more people watching and interacting with sports videos, prioritize the first two charts to focus on
-        clusters, especially Cluster 2, from Monday to Wednesday, and from afternoon to evening in summer and fall.</p>
+                                <!-- 第二段文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <ol>
+                                        <li>Top left and top right: you can see exactly where the clusters are located.</li>
+                                        <li>Lower left bar chart: although different "Time clustering" video posted by more or less people, but the
+                                            interactive effect points are not much difference.</li>
+                                        <li>Bottom - right pie chart: Cluster 2(Green) has the highest percentage (30.2%), indicating that this is the
+                                            most popular type of "Temporal clustering" for videos, proving that it really works and has a large
+                                            audience.</li>
+                                    </ol>
+                                    <p>To get more people watching and interacting with sports videos, prioritize the first two charts to focus on
+                                        clusters, especially Cluster 2, from Monday to Wednesday, and from afternoon to evening in summer and fall.</p>
+                                </div>
 
-                </div>
+                                <!-- 第二张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="publishTime-img2" src="./Sports/PublishTime/cyclical_pattern_analysis.png" alt="周期性模式分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Periodic Pattern Analysis: Periodic Changes in Viewing Time</p>
+                                    </div>
+                                </div>
 
-                <!-- 第二张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/PublishTime/cyclical_pattern_analysis.png" alt="周期性模式分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Periodic Pattern Analysis: Periodic Changes in Viewing Time</p>
-                    </div>
-                </div>
+                                <!-- 第三段文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <h3>·Week</h3>
+                                    <p>Wednesday, Thursday, the most popular weekend;</p>
+                                    <h3>·In a day</h3>
+                                    <p>Afternoon to evening (12 - 18 o'clock) send the most people;</p>
+                                    <h3>·Within a year</h3>
+                                    <p>July (summer) and the third quarter (july - september) are peak release seasons</p>
+                                    <h3>·Weekday distribution</h3>
+                                    <p>
+                                        Looking at the number of Weekday releases, you may find that the number of midweek (Tuesday - thursday) releases
+                                        is relatively stable, while the number of Friday and Saturday releases is up, and the number of Sunday releases
+                                        may be down slightly.
+                                    </p>
+                                    <h3>·Hour distribution</h3>
+                                    <p>
+                                        At different hours of the day, the number of posts shows a clear periodicity. The number of posts usually reaches
+                                        a peak between 6 pm and 10 pm, which is consistent with people's daily schedule. Evening is the main time period
+                                        for people to relax and entertainment, and people pay more attention to sports videos. In the early morning, the
+                                        number of posts is very small.
+                                    </p>
+                                    <h3>·Month distribution</h3>
+                                    <p>
+                                        In the dimension of Month, the number of releases in some months is larger, which may be related to the
+                                        arrangement of sports events and seasonal characteristics in that Month.
+                                    </p>
+                                    <h3>·Quarter Distribution</h3>
+                                    <p>On a quarterly basis, you may find a relatively high number of releases in Q2 and Q4.</p>
+                                </div>
 
-                <!-- 第三段文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <h3>Week</h3>
-    <p>Wednesday, Thursday, the most popular weekend;</p>
-    <h3>In a day</h3>
-    <p>Afternoon to evening (12 - 18 o'clock) send the most people;</p>
-    <h3>Within a year</h3>
-    <p>July (summer) and the third quarter (july - september) are peak release seasons</p>
-    <h3>Weekday distribution</h3>
-    <p>
-Looking at the number of Weekday releases, you may find that the number of midweek (Tuesday - thursday) releases
-        is relatively stable, while the number of Friday and Saturday releases is up, and the number of Sunday releases
-        may be down slightly.
-</p>
-    <h3>Hour distribution</h3>
-    <p>
-At different hours of the day, the number of posts shows a clear periodicity. The number of posts usually reaches
-        a peak between 6 pm and 10 pm, which is consistent with people's daily schedule. Evening is the main time period
-        for people to relax and entertainment, and people pay more attention to sports videos. In the early morning, the
-        number of posts is very small.
-</p>
-    <h3>Month distribution</h3>
-    <p>
-In the dimension of Month, the number of releases in some months is larger, which may be related to the
-        arrangement of sports events and seasonal characteristics in that Month.
-</p>
-    <h3>Quarter Distribution</h3>
-    <p>On a quarterly basis, you may find a relatively high number of releases in Q2 and Q4.</p>
+                                <div><h2>Early performance analysis chart</h2></div>
 
-                </div>
+                                <!-- 第三张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="publishTime-img3" src="./Sports/PublishTime/early_performance_analysis.png" alt="早期表现分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Early Performance Analysis:Data performance in the initial period after publication</p>
+                                    </div>
+                                </div>
 
-                <div><h2>Early performance analysis chart</h2></div>
+                                <!-- 第四段文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p>
+                                        Focus on the early stages of a sports video (probably the first few days or weeks after it's released), how
+                                        viewing and participation rates (likes, comments, shares, etc.) have changed over time.
+                                    </p>
+                                    <h3>·Viewing over time</h3>
+                                    <p>
+                                        As you can see from the graph, after the release of the video, the amount of viewing may show a rapid upward
+                                        trend at the beginning, and then gradually flatten out or decline.
+                                    </p>
+                                    <h3>·The relationship between participation rate and time</h3>
+                                    <p>
+                                        The change of participation rate (such as likes rate, comments rate) has a certain correlation with the number
+                                        of views, but also has its own characteristics.
+                                    </p>
+                                </div>
 
-                <!-- 第三张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/PublishTime/early_performance_analysis.png" alt="早期表现分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Early Performance Analysis:Data performance in the initial period after publication</p>
-                    </div>
-                </div>
+                                <div>
+                                    <h2>·Performance Heat diagram analysis chart</h2>
+                                    <p>Through the form of heat map, the performance of sports videos in multiple dimensions (such as video length,
+                                        release time, video type, etc.) is shown.</p>
+                                </div>
+                                <!-- 第四张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="publishTime-img4" src="./Sports/PublishTime/performance_heatmap_analysis.png" alt="表现热图分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Performance Heatmap Analysis:Comparison of performance across different time periods</p>
+                                    </div>
+                                </div>
 
-                <!-- 第四段文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                   <p>
-Focus on the early stages of a sports video (probably the first few days or weeks after it's released), how
-        viewing and participation rates (likes, comments, shares, etc.) have changed over time.
-</p>
-    <h3>Viewing over time</h3>
-    <p>
-As you can see from the graph, after the release of the video, the amount of viewing may show a rapid upward
-        trend at the beginning, and then gradually flatten out or decline.
-</p>
-    <h3>The relationship between participation rate and time</h3>
-    <p>
-The change of participation rate (such as likes rate, comments rate) has a certain correlation with the number
-        of views, but also has its own characteristics.
-</p>
-                </div>
+                                <!-- 第五段文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <h3>·Top left: Weekday - Hour Engagement Rate Heatmap</h3>
+                                    <p>
+                                        High Interaction Time: weekdays, Wednesday (≈2 on the vertical axis), Thursday (≈3 on the vertical axis) at 10 -
+                                        20 p.m. (10 - 20 on the horizontal axis), color dark red: day to night for both days, audience interaction
+                                        (likes, comments, shares) is most active.
+                                    </p>
+                                    <p>
+                                        Low interaction time: Monday (vertical axis ≈0), Sunday (vertical axis ≈6) in the early hours of the morning
+                                        (horizontal axis 0 - 5), color light white: these two times the video, audience interaction is less.
+                                    </p>
+                                    <h3>·Top Right: Month - weekday Engagement Rate Heatmap</h3>
+                                    <p>
+                                        High Interaction Month + week: Wednesday in July (vertical axis ≈6)(horizontal axis ≈2), color dark red -LRB -
+                                        value 1.3WednesdaysdayJulyjuly, audience interaction is extremely high.
+                                    </p>
+                                    <p>
+                                        Low Interaction Month + week: Monday in January (vertical axis ≈0), Monday in December (vertical axis ≈11)(
+                                        horizontal axis ≈0), light pink color, Mondays at the beginning and end of the year, low audience interaction
+                                        intention.
+                                    </p>
+                                    <h3>·Bottom left: Controlled Weekday - Hour Performance heat map</h3>
+                                    <p>
+                                        High Performance: Tuesday (vertical axis ≈1), Wednesday (vertical axis ≈2)10 - 20 points (horizontal axis 10 -
+                                        20), color deep purple: these two days of day to night, the video overall performance is the best.
+                                    </p>
+                                    <p>
+                                        Low - performance hours: Monday (vertical axis ≈0), Sunday (vertical axis ≈6) in the early hours of the morning
+                                        (horizontal axis 0 - 5 - RRB -, color light blue: these two hours to send video, even if there is a stream, the
+                                        audience may be half - way to watch and leave, poor distribution of content.
+                                    </p>
+                                    <h3>·Bottom right: Month - hour Daily View Rate Heatmap</h3>
+                                    <p>
+                                        High - day viewing times: 10 - 20 p.m. (X - axis 10 - 20) in July (y - axis ≈6), August (y - axis ≈7), dark
+                                        green: daytime to evening in summer (July - august), highest daily video viewing.
+                                    </p>
+                                    <p>
+                                        Low - day viewing times: early morning in January (vertical axis ≈0), December (vertical axis ≈11)(horizontal
+                                        axis 0 - 5), light green: Early and late morning, almost no one watches the video.
+                                    </p>
+                                </div>
 
-                <div>
-                    <h2>Performance Heat diagram analysis chart</h2>
-                    <p>Through the form of heat map, the performance of sports videos in multiple dimensions (such as video length,
-        release time, video type, etc.) is shown.</p>
-                </div>
-                <!-- 第四张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/PublishTime/performance_heatmap_analysis.png" alt="表现热图分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Performance Heatmap Analysis:Comparison of performance across different time periods</p>
-                    </div>
-                </div>
+                                <!-- 第五张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="publishTime-img5" src="./Sports/PublishTime/time_series_analysis.png" alt="时间序列分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Time Series Analysis:Trends in view count over time</p>
+                                    </div>
+                                </div>
 
-                <!-- 第五段文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <h3>Top left: Weekday - Hour Engagement Rate Heatmap</h3>
-    <p>
-High Interaction Time: weekdays, Wednesday (≈2 on the vertical axis), Thursday (≈3 on the vertical axis) at 10 -
-        20 p.m. (10 - 20 on the horizontal axis), color dark red: day to night for both days, audience interaction
-        (likes, comments, shares) is most active.
-</p>
-    <p>
-Low interaction time: Monday (vertical axis ≈0), Sunday (vertical axis ≈6) in the early hours of the morning
-        (horizontal axis 0 - 5), color light white: these two times the video, audience interaction is less.
-</p>
-    <h3>Top Right: Month - weekday Engagement Rate Heatmap</h3>
-    <p>
-High Interaction Month + week: Wednesday in July (vertical axis ≈6)(horizontal axis ≈2), color dark red -LRB -
-        value 1.3WednesdaysdayJulyjuly, audience interaction is extremely high.
-</p>
-    <p>
-Low Interaction Month + week: Monday in January (vertical axis ≈0), Monday in December (vertical axis ≈11)(
-        horizontal axis ≈0), light pink color, Mondays at the beginning and end of the year, low audience interaction
-        intention.
-</p>
-    <h3>Bottom left: Controlled Weekday - Hour Performance heat map</h3>
-    <p>
-High Performance: Tuesday (vertical axis ≈1), Wednesday (vertical axis ≈2)10 - 20 points (horizontal axis 10 -
-        20), color deep purple: these two days of day to night, the video overall performance is the best.
-</p>
-    <p>
-Low - performance hours: Monday (vertical axis ≈0), Sunday (vertical axis ≈6) in the early hours of the morning
-        (horizontal axis 0 - 5 - RRB -, color light blue: these two hours to send video, even if there is a stream, the
-        audience may be half - way to watch and leave, poor distribution of content.
-</p>
-    <h3>Bottom right: Month - hour Daily View Rate Heatmap</h3>
-    <p>
-High - day viewing times: 10 - 20 p.m. (X - axis 10 - 20) in July (y - axis ≈6), August (y - axis ≈7), dark
-        green: daytime to evening in summer (July - august), highest daily video viewing.
-</p>
-    <p>
-Low - day viewing times: early morning in January (vertical axis ≈0), December (vertical axis ≈11)(horizontal
-        axis 0 - 5), light green: Early and late morning, almost no one watches the video.
-</p>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                    <h3>·Weekly Comparison</h3>
 
-                </div>
+                                    <p>Around Week 30(corresponding to July 2025),there was a"peak"in the number of publications,while other weeks remained at a low level.</p>
 
-                <!-- 第五张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/PublishTime/time_series_analysis.png" alt="时间序列分析" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Time Series Analysis:Trends in view count over time</p>
-                    </div>
-                </div>
-
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        Weekly Comparison:
-
-• Around Week 30(corresponding to July 2025),there was a"peak"in the number of publications,while other weeks remained at a low level.
-
-• Correlation:This aligns with monthly and daily data,confirming that a large number of videos were concentrated in one week of July 2025.
+                                    <h3>·Correlation</h3>
+                                    <p>This aligns with monthly and daily data,confirming that a large number of videos were concentrated in one week of July 2025</p>
 
 
-Analysis:
-The volume of sports video publications has been stable over the long term,with a sudden increase in July 2025.It is inferred that this surge was driven by a special event(such as a sports competition or activity),which led to the concentrated release of a large amount of content.
-                    </p>
-                </div>
-            </div>
+                                    <h3>·Analysis<h3>
+                                    <p>The volume of sports video publications has been stable over the long term,with a sudden increase in July 2025.It is inferred that this surge was driven by a special event(such as a sports competition or activity),which led to the concentrated release of a large amount of content.</p>
+                                    </p>
+                                </div>
+                            </div>
 
-            <!-- 标签内容 -->
-            <div id="content-tag" class="tab-content hidden">
-                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
-                    <i class="fa fa-tags mr-2"></i> Tag Analysis
-                </h3>
-                
+                            <!-- 标签内容 -->
+                            <div id="content-tag" class="tab-content hidden">
+                                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                                    <i class="fa fa-tags mr-2"></i> Tag Analysis
+                                </h3>
+                                
 
-                <!-- 第一张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Tags/tag_wordcloud.png" alt="词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Word Cloud Analysis: Visualization of Frequent Tags</p>
-                    </div>
-                </div>
+                                <!-- 第一张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="tag-img1" src="./Sports/Tags/tag_wordcloud.png" alt="词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Word Cloud Analysis: Visualization of Frequent Tags</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        The word cloud provides a visual representation of the most frequently used tags in a sports-related dataset,highlighting the central themes and topics.The most prominent words such as"sports,""football,""soccer,""league,"and"highlights"indicate these are the dominant categories or subjects discussed.The presence of terms like"basketball,""olympic games,""tennis,""baseball,"and"workout"underscores a broad interest in various sports. Additionally,specific events and leagues including"olympics 2020,""la liga,""uefa,"and"champions league"suggest a focus on significant sports events and competitions.The inclusion of words like"shorts,""highlights,""viral,"and"resumen"points to a variety of video content formats,particularly shorter,highlight-based,and trending videos.Geographical and cultural references such as"european,""india,""australia,"and"french"indicate the global scope of the content.Finally,the mention of athlete names like"michah richards,""jamie carragher,"and"noah lyles"implies that content related to these personalities is also featured,offering insights into both popular sports and influential figures within the sports community.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The word cloud provides a visual representation of the most frequently used tags in a sports-related dataset,highlighting the central themes and topics.The most prominent words such as"sports,""football,""soccer,""league,"and"highlights"indicate these are the dominant categories or subjects discussed.The presence of terms like"basketball,""olympic games,""tennis,""baseball,"and"workout"underscores a broad interest in various sports. Additionally,specific events and leagues including"olympics 2020,""la liga,""uefa,"and"champions league"suggest a focus on significant sports events and competitions.The inclusion of words like"shorts,""highlights,""viral,"and"resumen"points to a variety of video content formats,particularly shorter,highlight-based,and trending videos.Geographical and cultural references such as"european,""india,""australia,"and"french"indicate the global scope of the content.Finally,the mention of athlete names like"michah richards,""jamie carragher,"and"noah lyles"implies that content related to these personalities is also featured,offering insights into both popular sports and influential figures within the sports community.
+                                    </p>
+                                </div>
 
-                <!-- 第二张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Tags/Top 30 Tag Frequencies.png" alt="top30" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Top 30 Tag Frequencies:Analysis of Prevalent Themes</p>
-                    </div>
-                </div>
+                                <!-- 第二张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="tag-img2" src="./Sports/Tags/Top 30 Tag Frequencies.png" alt="top30" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Top 30 Tag Frequencies:Analysis of Prevalent Themes</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        "sports" leads with a significant frequency gap. Among the top 30 tags, football-related tags account for over 1/3. Meanwhile, short-form video tags like shorts and youtube shorts appear, indicating the suitability of short videos for sports content dissemination.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        "sports" leads with a significant frequency gap. Among the top 30 tags, football-related tags account for over 1/3. Meanwhile, short-form video tags like shorts and youtube shorts appear, indicating the suitability of short videos for sports content dissemination.
+                                    </p>
+                                </div>
 
-                <!-- 第三张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Tags/heatmap.png" alt="热力图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Heatmap Analysis:Visual Representation of Performance Metrics</p>
-                    </div>
-                </div>
+                                <!-- 第三张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="tag-img3" src="./Sports/Tags/heatmap.png" alt="热力图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Heatmap Analysis:Visual Representation of Performance Metrics</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        This heatmap illustrates the normalized performance metrics across different tag clusters,showing correlations between average views,likes,comments,and engagement.Each cell's color intensity represents the strength of the relationship,with darker colors indicating stronger correlations.For instance,Cluster 1 shows a strong correlation between average engagement and views,as well as likes,suggesting that content in this cluster tends to be well-received and widely viewed.Cluster 3 exhibits high correlations among all metrics,indicating a cohesive viewer response.Conversely,Cluster 5 has low correlation values,suggesting less consistent performance across these metrics.This visualization helps identify which clusters are driving engagement and views,guiding content strategy and focus.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        This heatmap illustrates the normalized performance metrics across different tag clusters,showing correlations between average views,likes,comments,and engagement.Each cell's color intensity represents the strength of the relationship,with darker colors indicating stronger correlations.For instance,Cluster 1 shows a strong correlation between average engagement and views,as well as likes,suggesting that content in this cluster tends to be well-received and widely viewed.Cluster 3 exhibits high correlations among all metrics,indicating a cohesive viewer response.Conversely,Cluster 5 has low correlation values,suggesting less consistent performance across these metrics.This visualization helps identify which clusters are driving engagement and views,guiding content strategy and focus.
+                                    </p>
+                                </div>
 
-                <!-- 第四张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Tags/Clustering with UMAP.png" alt="聚类图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Cluster Analysis:UMAP Clustering Visualization</p>
-                    </div>
-                </div>
+                                <!-- 第四张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="tag-img4" src="./Sports/Tags/Clustering with UMAP.png" alt="聚类图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Cluster Analysis:UMAP Clustering Visualization</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        In terms of size, there are significant differences in the proportion of each cluster (e.g., Cluster 3 accounts for 19.5%). In terms of performance, different clusters show distinct advantages and disadvantages in metrics (such as views and engagement) (e.g., Cluster 1 scores full marks in multiple metrics). In terms of semantic correlation, tags within the same color cluster aggregate due to semantic similarity, while there are obvious semantic differences between different clusters.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        In terms of size, there are significant differences in the proportion of each cluster (e.g., Cluster 3 accounts for 19.5%). In terms of performance, different clusters show distinct advantages and disadvantages in metrics (such as views and engagement) (e.g., Cluster 1 scores full marks in multiple metrics). In terms of semantic correlation, tags within the same color cluster aggregate due to semantic similarity, while there are obvious semantic differences between different clusters.
+                                    </p>
+                                </div>
 
-                <!-- 第五张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Tags/Tag Co-occurrence Network Diagram.png" alt="关联图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Tag Co-occurrence Network Diagram: illustrates tag relationships through co-occurrence connections</p>
-                    </div>
-                </div>
+                                <!-- 第五张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="tag-img5" src="./Sports/Tags/Tag Co-occurrence Network Diagram.png" alt="关联图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Tag Co-occurrence Network Diagram: illustrates tag relationships through co-occurrence connections</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                         The tag co-occurrence network is complex, with core tags (e.g., "sports") having large nodes and numerous connections. Communities of different colors correspond to sports subdomains, reflecting the tags'关联性 and domain aggregation.
-                    </p>
-                </div>
-            </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The tag co-occurrence network is complex, with core tags (e.g., "sports") having large nodes and numerous connections. Communities of different colors correspond to sports subdomains, reflecting the tags'关联性 and domain aggregation.
+                                    </p>
+                                </div>
+                            </div>
 
-            <!-- 描述内容 -->
-            <div id="content-description" class="tab-content hidden">
-                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
-                    <i class="fa fa-file-text mr-2"></i> Description Analysis
-                </h3>
+                            <!-- 描述内容 -->
+                            <div id="content-description" class="tab-content hidden">
+                                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                                    <i class="fa fa-file-text mr-2"></i> Description Analysis
+                                </h3>
 
-                <div class="bg-white/80 rounded-lg p-4 border border-warm-orange/30">
-                        <p class="text-gray-700 leading-relaxed">
-                            Video descriptions are crucial for search engine optimization.A good description should be concise and clear,summarizing the video's core content within the first 50 characters,naturally incorporating keywords,and ending with a call to action like subscribing or liking.
-                        </p>
-                </div>
+                                <div class="bg-white/80 rounded-lg p-4 border border-warm-orange/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        Video descriptions are crucial for search engine optimization.A good description should be concise and clear,summarizing the video's core content within the first 50 characters,naturally incorporating keywords,and ending with a call to action like subscribing or liking.
+                                    </p>
+                                </div>
 
-                <!-- 第一张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Descriptions/wordcloud_short.png" alt="短视频词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Short Vedio Word Cloud Analysis: Visualization of Frequent Words</p>
-                        <img src="./Sports/Descriptions/wordcloud_medium.png" alt="中视频词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Medium Vedio Word Cloud Analysis: Visualization of Frequent Words</p>
-                        <img src="./Sports/Descriptions/wordcloud_long.png" alt="长视频词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Long Vedio Word Cloud Analysis: Visualization of Frequent Words</p>
-                    </div>
-                </div>
+                                <!-- 第一张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="description-img1" src="./Sports/Descriptions/wordcloud_short.png" alt="短视频词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Short Vedio Word Cloud Analysis: Visualization of Frequent Words</p>
+                                        <img id="description-img2" src="./Sports/Descriptions/wordcloud_medium.png" alt="中视频词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Medium Vedio Word Cloud Analysis: Visualization of Frequent Words</p>
+                                        <img id="description-img3" src="./Sports/Descriptions/wordcloud_long.png" alt="长视频词云" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Long Vedio Word Cloud Analysis: Visualization of Frequent Words</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        The word cloud provides a visual representation of the most frequently used words in a sports-related dataset,highlighting the central themes and topics.The most prominent words such as"sports,""football,""soccer,""league,"and"highlights"indicate these are the dominant categories or subjects discussed.The presence of terms like"basketball,""olympic games,""tennis,""baseball,"and"workout"underscores a broad interest in various sports. Additionally,specific events and leagues including"olympics 2020,""la liga,""uefa,"and"champions league"suggest a focus on significant sports events and competitions.The inclusion of words like"shorts,""highlights,""viral,"and"resumen"points to a variety of video content formats,particularly shorter,highlight-based,and trending videos.Geographical and cultural references such as"european,""india,""australia,"and"french"indicate the global scope of the content.Finally,the mention of athlete names like"michah richards,""jamie carragher,"and"noah lyles"implies that content related to these personalities is also featured,offering insights into both popular sports and influential figures within the sports community.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The word cloud provides a visual representation of the most frequently used words in a sports-related dataset,highlighting the central themes and topics.The most prominent words such as"sports,""football,""soccer,""league,"and"highlights"indicate these are the dominant categories or subjects discussed.The presence of terms like"basketball,""olympic games,""tennis,""baseball,"and"workout"underscores a broad interest in various sports. Additionally,specific events and leagues including"olympics 2020,""la liga,""uefa,"and"champions league"suggest a focus on significant sports events and competitions.The inclusion of words like"shorts,""highlights,""viral,"and"resumen"points to a variety of video content formats,particularly shorter,highlight-based,and trending videos.Geographical and cultural references such as"european,""india,""australia,"and"french"indicate the global scope of the content.Finally,the mention of athlete names like"michah richards,""jamie carragher,"and"noah lyles"implies that content related to these personalities is also featured,offering insights into both popular sports and influential figures within the sports community.
+                                    </p>
+                                </div>
 
-                <!-- 第二张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Descriptions/by_length_word_count.png" alt="word_count" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Word Count by Video Length: the analysis of word count distribution across different video lengths</p>
-                    </div>
-                </div>
+                                <!-- 第二张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="description-img4" src="./Sports/Descriptions/by_length_word_count.png" alt="word_count" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Word Count by Video Length: the analysis of word count distribution across different video lengths</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        The graph illustrates the distribution of word counts in video descriptions across three categories of video lengths: short, medium, and long. Each box represents the interquartile range (IQR) of word counts for the respective video length category, with the median marked within each box. The short video category generally has a lower word count with less variability, as indicated by the shorter box and fewer outliers. Medium and long videos show a wider distribution of word counts with more outliers, suggesting greater variability in description length. This analysis helps to understand how video length might influence the detail and complexity of descriptions, with longer videos potentially requiring more detailed descriptions.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The graph illustrates the distribution of word counts in video descriptions across three categories of video lengths: short, medium, and long. Each box represents the interquartile range (IQR) of word counts for the respective video length category, with the median marked within each box. The short video category generally has a lower word count with less variability, as indicated by the shorter box and fewer outliers. Medium and long videos show a wider distribution of word counts with more outliers, suggesting greater variability in description length. This analysis helps to understand how video length might influence the detail and complexity of descriptions, with longer videos potentially requiring more detailed descriptions.
+                                    </p>
+                                </div>
 
-                <!-- 第三张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Descriptions/Description Cluster Analysis.png" alt="聚合图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Description Cluster Analysis:Identification of Content Themes in Video Descriptions</p>
-                    </div>
-                </div>
+                                <!-- 第三张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="description-img5" src="./Sports/Descriptions/Description Cluster Analysis.png" alt="聚合图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Description Cluster Analysis:Identification of Content Themes in Video Descriptions</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        In terms of size, there are significant differences in the proportion of each cluster (e.g., Cluster 3 accounts for 19.5%). In terms of performance, different clusters show distinct advantages and disadvantages in metrics (such as views and engagement) (e.g., Cluster 1 scores full marks in multiple metrics). In terms of semantic correlation, tags within the same color cluster aggregate due to semantic similarity, while there are obvious semantic differences between different clusters.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        In terms of size, there are significant differences in the proportion of each cluster (e.g., Cluster 3 accounts for 19.5%). In terms of performance, different clusters show distinct advantages and disadvantages in metrics (such as views and engagement) (e.g., Cluster 1 scores full marks in multiple metrics). In terms of semantic correlation, tags within the same color cluster aggregate due to semantic similarity, while there are obvious semantic differences between different clusters.
+                                    </p>
+                                </div>
 
-                <!-- 第四张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Descriptions/Sentiment Analysis.png" alt="情感图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Sentiment Analysis:Evaluation of Emotional Tone in Video Descriptions</p>
-                    </div>
-                </div>
+                                <!-- 第四张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="description-img6" src="./Sports/Descriptions/Sentiment Analysis.png" alt="情感图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Sentiment Analysis:Evaluation of Emotional Tone in Video Descriptions</p>
+                                    </div>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        Positive sentiments dominate across all dimensions. The "Videos" dimension has the most prominent positive proportion at 96%. Only a few dimensions have negative sentiments.
-                    </p>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        Positive sentiments dominate across all dimensions. The "Videos" dimension has the most prominent positive proportion at 96%. Only a few dimensions have negative sentiments.
+                                    </p>
+                                </div>
+                            </div>
 
-                
-                
-            </div>
+                            <!-- 标题内容 -->
+                            <div id="content-title" class="tab-content hidden">
+                                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                                    <i class="fa fa-heading mr-2"></i> Title Analysis
+                                </h3>
+                                <div class="bg-white/80 rounded-lg p-4 border border-warm-amber/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The title is the first element that attracts viewers to click.An effective title should accurately describe the content,spark curiosity,and include keywords to improve search rankings.Avoid using exaggerated or misleading statements and maintain authenticity.
+                                    </p>
+                                </div>
+                                
+                                <!-- 第一张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="title-img1" src="./Sports/Title/topic_keywords.png" alt="主题关键词" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Topic Keyword Analysis:Identification of Dominant Terms by Topics</p>
+                                    </div>
+                                </div>
 
-            <!-- 标题内容 -->
-            <div id="content-title" class="tab-content hidden">
-                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
-                    <i class="fa fa-heading mr-2"></i> Title Analysis
-                </h3>
-                <div class="bg-white/80 rounded-lg p-4 border border-warm-amber/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        The title is the first element that attracts viewers to click.An effective title should accurately describe the content,spark curiosity,and include keywords to improve search rankings.Avoid using exaggerated or misleading statements and maintain authenticity.
-                    </p>
-                </div>
-                
-                <!-- 第一张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Title/topic_keywords.png" alt="主题关键词" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Topic Keyword Analysis:Identification of Dominant Terms by Topics</p>
-                    </div>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        This image displays a bar chart titled"Top words per LDA topic,"showcasing the most significant words associated with each of five topics identified by Latent Dirichlet Allocation(LDA).Each topic is represented on a separate subplot,with the words'frequencies indicated by the length of the bars.Topic 1 is heavily associated with terms like"baseball,""game,"and"sport,"suggesting a focus on sports.Topic 2 includes words such as"de,""le,"and"player,"possibly indicating a focus on players or a specific language context.Topic 3 is characterized by words like"football,""basketball,"and"sport,"pointing towards a general sports theme.Topic 4 features terms like"day,""kick,"and"moment,"which might relate to everyday sports moments or events.Lastly,Topic 5 includes words such as"short,""sport,"and"moment,"potentially highlighting short sports moments or highlights.This visualization helps in understanding the thematic structure within the dataset as identified by the LDA model.
+                                    </p>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        This image displays a bar chart titled"Top words per LDA topic,"showcasing the most significant words associated with each of five topics identified by Latent Dirichlet Allocation(LDA).Each topic is represented on a separate subplot,with the words'frequencies indicated by the length of the bars.Topic 1 is heavily associated with terms like"baseball,""game,"and"sport,"suggesting a focus on sports.Topic 2 includes words such as"de,""le,"and"player,"possibly indicating a focus on players or a specific language context.Topic 3 is characterized by words like"football,""basketball,"and"sport,"pointing towards a general sports theme.Topic 4 features terms like"day,""kick,"and"moment,"which might relate to everyday sports moments or events.Lastly,Topic 5 includes words such as"short,""sport,"and"moment,"potentially highlighting short sports moments or highlights.This visualization helps in understanding the thematic structure within the dataset as identified by the LDA model.
-                    </p>
-                </div>
+                                <!-- 第二张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="title-img2" src="./Sports/Title/youtube_logo_wordcloud_rect_red2darkyellow.png" alt="youtube_logo_wordcloud" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Word Cloud Analysis: Visualization of Frequent Words</p>
+                                    </div>
+                                </div>
 
-                <!-- 第二张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Title/youtube_logo_wordcloud_rect_red2darkyellow.png" alt="youtube_logo_wordcloud" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Word Cloud Analysis: Visualization of Frequent Words</p>
-                    </div>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The graph illustrates the distribution of word counts in video descriptions across three categories of video lengths: short, medium, and long. Each box represents the interquartile range (IQR) of word counts for the respective video length category, with the median marked within each box. The short video category generally has a lower word count with less variability, as indicated by the shorter box and fewer outliers. Medium and long videos show a wider distribution of word counts with more outliers, suggesting greater variability in description length. This analysis helps to understand how video length might influence the detail and complexity of descriptions, with longer videos potentially requiring more detailed descriptions.
+                                    </p>
+                                </div>
+                            </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        The graph illustrates the distribution of word counts in video descriptions across three categories of video lengths: short, medium, and long. Each box represents the interquartile range (IQR) of word counts for the respective video length category, with the median marked within each box. The short video category generally has a lower word count with less variability, as indicated by the shorter box and fewer outliers. Medium and long videos show a wider distribution of word counts with more outliers, suggesting greater variability in description length. This analysis helps to understand how video length might influence the detail and complexity of descriptions, with longer videos potentially requiring more detailed descriptions.
-                    </p>
-                </div>
+                            <!-- 时长内容 -->
+                            <div id="content-duration" class="tab-content hidden">
+                                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
+                                    <i class="fa fa-hourglass-half mr-2"></i> Duration Analysis
+                                </h3>
+                                <div class="bg-white/80 rounded-lg p-4 border border-warm-peach/40">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        Video duration directly affects the completion rate and user engagement.Different types of content have their optimal lengths.The key is to ensure a moderate content density,avoiding lengthy intros and outros,making every minute valuable.
+                                    </p>
+                                </div>
 
-                
-            </div>
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img5" src="./Sports/Duration/g1.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Analysis of Video Content Duration</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 第一张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img1" src="./Sports/Duration/duration_heat_comparison_bar.png" alt="classification" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Average Popularity by Duration Group: Classification and Comparison</p>
+                                    </div>
+                                </div>
 
-            <!-- 时长内容 -->
-            <div id="content-duration" class="tab-content hidden">
-                <h3 class="text-lg font-semibold mb-4 text-warm-red flex items-center">
-                    <i class="fa fa-hourglass-half mr-2"></i> Duration Analysis
-                </h3>
-                <div class="bg-white/80 rounded-lg p-4 border border-warm-peach/40">
-                    <p class="text-gray-700 leading-relaxed">
-                        Video duration directly affects the completion rate and user engagement.Different types of content have their optimal lengths.The key is to ensure a moderate content density,avoiding lengthy intros and outros,making every minute valuable.
-                    </p>
-                </div>
-                
-                <!-- 第一张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Duration/duration_heat_comparison_bar.png" alt="classification" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Average Popularity by Duration Group: Classification and Comparison</p>
-                    </div>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        0-3min videos average 0.0226 engagement, 7.5x that of 10min+ (0.003), suggesting platform algorithms favor shorter durations.
+                                    </p>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                         0-3min videos average 0.0226 engagement, 7.5x that of 10min+ (0.003), suggesting platform algorithms favor shorter durations.
-                    </p>
-                </div>
+                                <!-- 第二张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img2" src="./Sports/Duration/duration_heat_subintervals_clean.png" alt="热力图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Popularity Distribution in Duration Sub-intervals</p>
+                                    </div>
+                                </div>
 
-                <!-- 第二张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Duration/duration_heat_subintervals_clean.png" alt="热力图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Popularity Distribution in Duration Sub-intervals</p>
-                    </div>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        The 0-3min segment has the highest engagement (0.037) and accounts for 68%, aligning with users' fragmented viewing habits; segments over 10min have <0.01 engagement, reflecting limited long-content appeal.
+                                    </p>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        The 0-3min segment has the highest engagement (0.037) and accounts for 68%, aligning with users' fragmented viewing habits; segments over 10min have <0.01 engagement, reflecting limited long-content appeal.
-                    </p>
-                </div>
+                                <!-- 第三张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img3" src="./Sports/Duration/Engagement Efficiency Metrics by Duration Category.png" alt="Classification" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Engagement Efficiency Metrics by Duration Category</p>
+                                    </div>
+                                </div>
 
-                <!-- 第三张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Duration/Engagement Efficiency Metrics by Duration Category.png" alt="Classification" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">Engagement Efficiency Metrics by Duration Category</p>
-                    </div>
-                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        Short videos show 0.08 likes/views and 0.012 comments/views, doubling mid-long videos, indicating stronger interactive motivation in short-form content.
+                                    </p>
+                                </div>
 
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        Short videos show 0.08 likes/views and 0.012 comments/views, doubling mid-long videos, indicating stronger interactive motivation in short-form content.
-                    </p>
-                </div>
+                                <!-- 第四张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img4" src="./Sports/Duration/counts_relationship.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">views_counts, likes_counts, comments_counts relationship</p>
+                                    </div>
+                                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        A 0.92 correlation between views and likes shows high views drive likes; lower 0.57 comments correlation indicates passive liking behavior dominates.
+                                    </p>
+                                </div>
 
-                <!-- 第四张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Duration/counts_relationship.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">views_counts, likes_counts, comments_counts relationship</p>
-                    </div>
-                </div>
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">
-                        A 0.92 correlation between views and likes shows high views drive likes; lower 0.57 comments correlation indicates passive liking behavior dominates.
-                    </p>
-                </div>
+                                <!-- 第五张图片 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img5" src="./Sports/Duration/Duration vs Word Count.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">duration, title word count relationship</p>
+                                    </div>
+                                </div>
+                                <!-- 总结文字 -->
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <p class="text-gray-700 leading-relaxed">0-4min videos have 12-word titles on average (72% of total), with higher info density for short-form; 20min+ videos use 8-word titles (5% share), relying on conciseness to attract clicks.A 0.92 correlation between views and likes shows high views drive likes; lower 0.57 comments correlation indicates passive liking behavior dominates.
+                                    </p>
+                                </div>
 
-                <!-- 第五张图片 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <div class="text-center">
-                        <img src="./Sports/Duration/Duration vs Word Count.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
-                        <p class="text-sm text-gray-500 mt-2">duration, title word count relationship</p>
-                    </div>
-                </div>
-                <!-- 总结文字 -->
-                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
-                    <p class="text-gray-700 leading-relaxed">0-4min videos have 12-word titles on average (72% of total), with higher info density for short-form; 20min+ videos use 8-word titles (5% share), relying on conciseness to attract clicks.A 0.92 correlation between views and likes shows high views drive likes; lower 0.57 comments correlation indicates passive liking behavior dominates.
-                    </p>
-                </div>
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img5" src="./Sports/Duration/g2.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Silhouette Score Evaluation</p>
+                                    </div>
+                                </div>
 
-            </div>
-        </div>
-                    
-                    <!-- 洞察 -->
-                    <div class="bg-gradient-warm rounded-lg p-4 border border-white/50">
-                        <h3 class="text-md font-semibold mb-2 flex items-center">
-                            <i class="fa fa-lightbulb-o text-warm-red mr-2"></i> Data Insights
-                        </h3>
-                        <p class="text-gray-700">Sports videos see a 35%increase in views on weekends compared to weekdays,suggesting that key content should be released from Friday to Sunday.Additionally,keeping video length between 8 to 12 minutes can achieve the best viewing experience.</p>
-                        <br>
-                        <p class="text-gray-700">The analysis of tags reveals a high concentration of core keywords such as "sports," "football," and "league," which dominate approximately one-third of the tags, reflecting the prevalent interests among viewers. The presence of tags like "shorts," "highlight," and "viral" indicates that short-form content and highlight reels are more likely to be shared, suggesting a preference for easily digestible content. Additionally, UMAP clustering demonstrates clear semantic groupings, with distinct clusters indicating significant differences in meaning between them. Notably, certain clusters, such as Cluster 1 and 3, show superior performance in terms of views and engagement, pointing towards effective content focus areas.</p>
-                        <br>
-                        <p class="text-gray-700">The examination of video descriptions uncovers a broad range of keywords, as depicted in the word cloud, which includes types of sports, event names, and trending tags, mirroring the content themes and global reach. The length of descriptions tends to increase with video duration, with shorter videos featuring more concise descriptions and longer ones providing more detailed information. Cluster analysis of descriptions also highlights stylistic differences in content performance and semantic styles. Overwhelmingly, more than 95% of descriptions exhibit a positive sentiment, which is beneficial for attracting user clicks and interactions.</p>
-                        <p> </p>
-                        <p class="text-gray-700">The analysis of video titles, guided by LDA, indicates a focus on themes like "matches," "players," and "highlights," suggesting that titles are crafted to capture the essence of the content. High-frequency words in the word cloud are often associated with compelling events or figures, indicating that titles are designed to attract viewers. There is a correlation between title length and video duration, with shorter videos typically having briefer titles, accommodating viewer reading habits and platform recommendation algorithms. Duration analysis shows that short videos, especially those under 3 minutes, have a significantly higher interaction rate compared to longer content, suggesting an advantage for short-form content. The 8-12 minute range offers a balanced approach, maintaining information density while retaining viewer attention. Furthermore, short videos exhibit higher engagement efficiency, with better like-to-view and comment-to-view ratios, reflecting content preferences in the era of fragmented attention spans.</p>
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img5" src="./Sports/Duration/g3.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Davies-Bouldin Index</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white/80 rounded-lg p-4 mb-6 border border-warm-peach/30">
+                                    <div class="text-center">
+                                        <img id="duration-img5" src="./Sports/Duration/g4.png" alt="关系图" class="w-full max-w-2xl mx-auto rounded-lg shadow-md">
+                                        <p class="text-sm text-gray-500 mt-2">Calinski-Harabasz ndex</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 洞察 -->
+                        <div class="bg-gradient-warm rounded-lg p-4 border border-white/50">
+                            <h3 class="text-md font-semibold mb-2 flex items-center">
+                                <i class="fa fa-lightbulb-o text-warm-red mr-2"></i> Data Insights
+                            </h3>
+                            <p class="text-gray-700" id="insight-text">Sports videos see a 35%increase in views on weekends compared to weekdays,suggesting that key content should be released from Friday to Sunday.Additionally,keeping video length between 8 to 12 minutes can achieve the best viewing experience.</p>
+                            <br>
+                            <p class="text-gray-700">The analysis of tags reveals a high concentration of core keywords such as "sports," "football," and "league," which dominate approximately one-third of the tags, reflecting the prevalent interests among viewers. The presence of tags like "shorts," "highlight," and "viral" indicates that short-form content and highlight reels are more likely to be shared, suggesting a preference for easily digestible content. Additionally, UMAP clustering demonstrates clear semantic groupings, with distinct clusters indicating significant differences in meaning between them. Notably, certain clusters, such as Cluster 1 and 3, show superior performance in terms of views and engagement, pointing towards effective content focus areas.</p>
+                            <br>
+                            <p class="text-gray-700">The examination of video descriptions uncovers a broad range of keywords, as depicted in the word cloud, which includes types of sports, event names, and trending tags, mirroring the content themes and global reach. The length of descriptions tends to increase with video duration, with shorter videos featuring more concise descriptions and longer ones providing more detailed information. Cluster analysis of descriptions also highlights stylistic differences in content performance and semantic styles. Overwhelmingly, more than 95% of descriptions exhibit a positive sentiment, which is beneficial for attracting user clicks and interactions.</p>
+                            <br>
+                            <p class="text-gray-700">The analysis of video titles, guided by LDA, indicates a focus on themes like "matches," "players," and "highlights," suggesting that titles are crafted to capture the essence of the content. High-frequency words in the word cloud are often associated with compelling events or figures, indicating that titles are designed to attract viewers. There is a correlation between title length and video duration, with shorter videos typically having briefer titles, accommodating viewer reading habits and platform recommendation algorithms. Duration analysis shows that short videos, especially those under 3 minutes, have a significantly higher interaction rate compared to longer content, suggesting an advantage for short-form content. The 8-12 minute range offers a balanced approach, maintaining information density while retaining viewer attention. Furthermore, short videos exhibit higher engagement efficiency, with better like-to-view and comment-to-view ratios, reflecting content preferences in the era of fragmented attention spans.</p>
+                        </div>
                     </div>
                 </div>
                 
@@ -715,7 +765,7 @@ The volume of sports video publications has been stable over the long term,with 
           
             
             <div class="border-t border-warm-peach/30 mt-8 pt-8 text-center text-gray-500">
-                <p>&copy; 2025 视频分析助手 | 版权所有</p>
+                <p>&copy;  2025 Video Analysis Assistant | All Rights Reserved</p>
             </div>
         </div>
     </footer>
@@ -728,32 +778,265 @@ The volume of sports video publications has been stable over the long term,with 
         const sendButton = document.getElementById("sendButton");
         const reportTitle = document.getElementById("reportTitle");
         const categoryButtons = document.querySelectorAll(".category-btn");
+        const insightText = document.getElementById("insight-text");
         
-        // 模拟分类数据
+        // 分类数据
         const categoryData = {
-            sports: { title: "体育运动分析报告" },
-            education: { title: "教育学习分析报告" },
-            music: { title: "音乐娱乐分析报告" },
-            gaming: { title: "游戏电竞分析报告" },
-            lifestyle: { title: "生活方式分析报告" },
-            tech: { title: "科技数码分析报告" }
+            sports: { 
+                title: "Sports Analysis Report",
+                insight: "Sports videos see a 35% increase in views on weekends compared to weekdays, suggesting that key content should be released from Friday to Sunday. Additionally, keeping video length between 8 to 12 minutes can achieve the best viewing experience.",
+                images: {
+                    publishTime: [
+                        "./Sports/PublishTime/clustering_analysis.png",
+                        "./Sports/PublishTime/cyclical_pattern_analysis.png",
+                        "./Sports/PublishTime/early_performance_analysis.png",
+                        "./Sports/PublishTime/performance_heatmap_analysis.png",
+                        "./Sports/PublishTime/time_series_analysis.png"
+                    ],
+                    tag: [
+                        "./Sports/Tags/tag_wordcloud.png",
+                        "./Sports/Tags/Top 30 Tag Frequencies.png",
+                        "./Sports/Tags/heatmap.png",
+                        "./Sports/Tags/Clustering with UMAP.png",
+                        "./Sports/Tags/Tag Co-occurrence Network Diagram.png"
+                    ],
+                    description: [
+                        "./Sports/Descriptions/wordcloud_short.png",
+                        "./Sports/Descriptions/wordcloud_medium.png",
+                        "./Sports/Descriptions/wordcloud_long.png",
+                        "./Sports/Descriptions/by_length_word_count.png",
+                        "./Sports/Descriptions/Description Cluster Analysis.png",
+                        "./Sports/Descriptions/Sentiment Analysis.png"
+                    ],
+                    title: [
+                        "./Sports/Title/topic_keywords.png",
+                        "./Sports/Title/youtube_logo_wordcloud_rect_red2darkyellow.png"
+                    ],
+                    duration: [
+                        "./Sports/Duration/g1.png",
+                        "./Sports/Duration/duration_heat_comparison_bar.png",
+                        "./Sports/Duration/duration_heat_subintervals_clean.png",
+                        "./Sports/Duration/Engagement Efficiency Metrics by Duration Category.png",
+                        "./Sports/Duration/counts_relationship.png",
+                        "./Sports/Duration/Duration vs Word Count.png",
+                        "./Sports/Duration/g2.png",
+                        "./Sports/Duration/g3.png",
+                        "./Sports/Duration/g4.png"
+                    ]
+                }
+            },
+            movie: { 
+                title: "Movie Analysis Report",
+                insight: "Movie videos perform best when released in the evening hours, with peak engagement between 7-10 PM. The optimal duration for movie trailers is 2-3 minutes, while in-depth analysis videos perform best at 10-15 minutes.",
+                images: {
+                    publishTime: [
+                        "./Movie/PublishTime/clustering_analysis.png",
+                        "./Movie/PublishTime/cyclical_pattern_analysis.png",
+                        "./Movie/PublishTime/early_performance_analysis.png",
+                        "./Movie/PublishTime/performance_heatmap_analysis.png",
+                        "./Movie/PublishTime/time_series_analysis.png"
+                    ],
+                    tag: [
+                        "./Movie/Tags/tag_wordcloud.png",
+                        "./Movie/Tags/Top 30 Tag Frequencies.png",
+                        "./Movie/Tags/heatmap.png",
+                        "./Movie/Tags/Clustering with UMAP.png",
+                        "./Movie/Tags/Tag Co-occurrence Network Diagram.png"
+                    ],
+                    description: [
+                        "./Movie/Descriptions/wordcloud_short.png",
+                        "./Movie/Descriptions/wordcloud_medium.png",
+                        "./Movie/Descriptions/wordcloud_long.png",
+                        "./Movie/Descriptions/by_length_word_count.png",
+                        "./Movie/Descriptions/Description Cluster Analysis.png",
+                        "./Movie/Descriptions/Sentiment Analysis.png"
+                    ],
+                    title: [
+                        "./Movie/Title/topic_keywords.png",
+                        "./Movie/Title/youtube_logo_wordcloud_rect_red2darkyellow.png"
+                    ],
+                    duration: [
+                        "./Movie/Duration/g1.png",
+                        "./Movie/Duration/duration_heat_comparison_bar.png",
+                        "./Movie/Duration/duration_heat_subintervals_clean.png",
+                        "./Movie/Duration/Engagement Efficiency Metrics by Duration Category.png",
+                        "./Movie/Duration/counts_relationship.png",
+                        "./Movie/Duration/Duration vs Word Count.png",
+                        "./Movie/Duration/g2.png",
+                        "./Movie/Duration/g3.png",
+                        "./Movie/Duration/g4.png"
+                    ]
+                }
+            },
+            music: { 
+                title: "Music Analysis Report",
+                insight: "Music videos perform exceptionally well on Fridays and Saturdays, with engagement rates 40% higher than weekdays. Short-form music content (under 1 minute) has the highest share rate, while full-length videos (3-5 minutes) maintain the best watch time.",
+                images: {
+                    publishTime: [
+                        "./Music/PublishTime/clustering_analysis.png",
+                        "./Music/PublishTime/cyclical_pattern_analysis.png",
+                        "./Music/PublishTime/early_performance_analysis.png",
+                        "./Music/PublishTime/performance_heatmap_analysis.png",
+                        "./Music/PublishTime/time_series_analysis.png"
+                    ],
+                    tag: [
+                        "./Music/Tags/tag_wordcloud.png",
+                        "./Music/Tags/Top 30 Tag Frequencies.png",
+                        "./Music/Tags/heatmap.png",
+                        "./Music/Tags/Clustering with UMAP.png",
+                        "./Music/Tags/Tag Co-occurrence Network Diagram.png"
+                    ],
+                    description: [
+                        "./Music/Descriptions/wordcloud_short.png",
+                        "./Music/Descriptions/wordcloud_medium.png",
+                        "./Music/Descriptions/wordcloud_long.png",
+                        "./Music/Descriptions/by_length_word_count.png",
+                        "./Music/Descriptions/Description Cluster Analysis.png",
+                        "./Music/Descriptions/Sentiment Analysis.png"
+                    ],
+                    title: [
+                        "./Music/Title/topic_keywords.png",
+                        "./Music/Title/youtube_logo_wordcloud_rect_red2darkyellow.png"
+                    ],
+                    duration: [
+                        "./Music/Duration/g1.png",
+                        "./Music/Duration/duration_heat_comparison_bar.png",
+                        "./Music/Duration/duration_heat_subintervals_clean.png",
+                        "./Music/Duration/Engagement Efficiency Metrics by Duration Category.png",
+                        "./Music/Duration/counts_relationship.png",
+                        "./Music/Duration/Duration vs Word Count.png",
+                        "./Music/Duration/g2.png",
+                        "./Music/Duration/g3.png",
+                        "./Music/Duration/g4.png"
+                    ]
+                }
+            },
+            gaming: { 
+                title: "Gaming Analysis Report",
+                insight: "Gaming videos see peak engagement during weekday evenings (6-10 PM) and weekend afternoons (12-4 PM). Live streams perform best when 2-3 hours long, while highlight clips should be kept under 5 minutes for maximum shareability.",
+                images: {
+                    publishTime: [
+                        "./Gaming/PublishTime/clustering_analysis.png",
+                        "./Gaming/PublishTime/cyclical_pattern_analysis.png",
+                        "./Gaming/PublishTime/early_performance_analysis.png",
+                        "./Gaming/PublishTime/performance_heatmap_analysis.png",
+                        "./Gaming/PublishTime/time_series_analysis.png"
+                    ],
+                    tag: [
+                        "./Gaming/Tags/tag_wordcloud.png",
+                        "./Gaming/Tags/Top 30 Tag Frequencies.png",
+                        "./Gaming/Tags/heatmap.png",
+                        "./Gaming/Tags/Clustering with UMAP.png",
+                        "./Gaming/Tags/Tag Co-occurrence Network Diagram.png"
+                    ],
+                    description: [
+                        "./Gaming/Descriptions/wordcloud_short.png",
+                        "./Gaming/Descriptions/wordcloud_medium.png",
+                        "./Gaming/Descriptions/wordcloud_long.png",
+                        "./Gaming/Descriptions/by_length_word_count.png",
+                        "./Gaming/Descriptions/Description Cluster Analysis.png",
+                        "./Gaming/Descriptions/Sentiment Analysis.png"
+                    ],
+                    title: [
+                        "./Gaming/Title/topic_keywords.png",
+                        "./Gaming/Title/youtube_logo_wordcloud_rect_red2darkyellow.png"
+                    ],
+                    duration: [
+                        "./Gaming/Duration/g1.png",
+                        "./Gaming/Duration/duration_heat_comparison_bar.png",
+                        "./Gaming/Duration/duration_heat_subintervals_clean.png",
+                        "./Gaming/Duration/Engagement Efficiency Metrics by Duration Category.png",
+                        "./Gaming/Duration/counts_relationship.png",
+                        "./Gaming/Duration/Duration vs Word Count.png",
+                        "./Gaming/Duration/g2.png",
+                        "./Gaming/Duration/g3.png",
+                        "./Gaming/Duration/g4.png"
+                    ]
+                }
+            },
+            lifestyle: { 
+                title: "Lifestyle Analysis Report",
+                insight: "Coming soon...",
+                images: {
+                    publishTime: [],
+                    tag: [],
+                    description: [],
+                    title: [],
+                    duration: []
+                }
+            }
         };
         
         // 处理分类切换
         categoryButtons.forEach(button => {
             button.addEventListener("click", () => {
-                // 更新选中状态
+                const category = button.dataset.category;
+                
+                if (category === "lifestyle") {
+                    alert("This feature is coming soon!"); // 或者用更美观的弹窗
+                    return;
+                }
+                
+                // 正常逻辑
                 categoryButtons.forEach(btn => btn.classList.remove("active", "bg-warm-peach/30"));
                 button.classList.add("active", "bg-warm-peach/30");
-                
-                // 更新报告标题
-                const category = button.dataset.category;
                 reportTitle.textContent = categoryData[category].title;
-                
-                // 滚动到顶部
+                insightText.textContent = categoryData[category].insight;
+                updateImagePaths(category);
+                showTab(currentTab);
                 window.scrollTo({ top: 0, behavior: "smooth" });
             });
         });
+        
+        // 更新图片路径
+        function updateImagePaths(category) {
+            const imageData = categoryData[category].images;
+            
+            // 更新发布时间图片
+            if (imageData.publishTime.length > 0) {
+                document.getElementById("publishTime-img1").src = imageData.publishTime[0];
+                document.getElementById("publishTime-img2").src = imageData.publishTime[1];
+                document.getElementById("publishTime-img3").src = imageData.publishTime[2];
+                document.getElementById("publishTime-img4").src = imageData.publishTime[3];
+                document.getElementById("publishTime-img5").src = imageData.publishTime[4];
+            }
+            
+            // 更新标签图片
+            if (imageData.tag.length > 0) {
+                document.getElementById("tag-img1").src = imageData.tag[0];
+                document.getElementById("tag-img2").src = imageData.tag[1];
+                document.getElementById("tag-img3").src = imageData.tag[2];
+                document.getElementById("tag-img4").src = imageData.tag[3];
+                document.getElementById("tag-img5").src = imageData.tag[4];
+            }
+            
+            // 更新描述图片
+            if (imageData.description.length > 0) {
+                document.getElementById("description-img1").src = imageData.description[0];
+                document.getElementById("description-img2").src = imageData.description[1];
+                document.getElementById("description-img3").src = imageData.description[2];
+                document.getElementById("description-img4").src = imageData.description[3];
+                document.getElementById("description-img5").src = imageData.description[4];
+                if (imageData.description.length > 5) {
+                    document.getElementById("description-img6").src = imageData.description[5];
+                }
+            }
+            
+            // 更新标题图片
+            if (imageData.title.length > 0) {
+                document.getElementById("title-img1").src = imageData.title[0];
+                document.getElementById("title-img2").src = imageData.title[1];
+            }
+            
+            // 更新时长图片
+            if (imageData.duration.length > 0) {
+                document.getElementById("duration-img1").src = imageData.duration[0];
+                document.getElementById("duration-img2").src = imageData.duration[1];
+                document.getElementById("duration-img3").src = imageData.duration[2];
+                document.getElementById("duration-img4").src = imageData.duration[3];
+                document.getElementById("duration-img5").src = imageData.duration[4];
+            }
+        }
         
         // 发送用户消息
         function sendMessage() {
@@ -773,40 +1056,43 @@ The volume of sports video publications has been stable over the long term,with 
         // 添加消息到对话区域
         function addMessage(type, content) {
             const messageDiv = document.createElement("div");
-            messageDiv.className = "mb-4";
+            messageDiv.className = `mb-4 ${type}-message`;
             
             let html = "";
+            const escapedContent = escapeHTML(content);
             
             if (type === "user") {
                 html = `
                     <div class="flex items-start justify-end">
                         <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%]">
-                            <p class="text-gray-700">${escapeHTML(content)}</p>
+                            <p class="text-gray-700">${escapedContent}</p>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-warm-cream flex items-center justify-center text-warm-red ml-2 shadow-sm">
                             <i class="fa fa-user"></i>
                         </div>
                     </div>
                 `;
-            } else if (type === "ai") {
+            } 
+            else if (type === "ai") {
                 html = `
                     <div class="flex items-start">
                         <div class="w-10 h-10 rounded-full bg-gradient-ai flex items-center justify-center text-warm-red mr-2 shadow-sm">
                             <i class="fa fa-robot"></i>
                         </div>
-                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%]">
-                            <p class="text-gray-700">${escapeHTML(content)}</p>
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%] markdown-content">
+                            ${marked.parse(escapedContent)}
                         </div>
                     </div>
                 `;
-            } else if (type === "error") {
+            }
+            else if (type === "error") {
                 html = `
                     <div class="flex items-start">
                         <div class="w-10 h-10 rounded-full bg-warm-peach/50 flex items-center justify-center text-warm-red mr-2 shadow-sm">
                             <i class="fa fa-exclamation-triangle"></i>
                         </div>
                         <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%] border border-warm-peach/30">
-                            <p class="text-warm-red">${escapeHTML(content)}</p>
+                            <p class="text-warm-red">${escapedContent}</p>
                         </div>
                     </div>
                 `;
@@ -814,8 +1100,6 @@ The volume of sports video publications has been stable over the long term,with 
             
             messageDiv.innerHTML = html;
             chatContainer.appendChild(messageDiv);
-            
-            // 滚动到底部
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
         
@@ -875,19 +1159,102 @@ The volume of sports video publications has been stable over the long term,with 
         });
         
         // WebSocket连接处理
-        socket.onopen = () => showNotification("已连接到AI助手", "success");
-        socket.onclose = () => showNotification("与AI助手的连接已断开，尝试重新连接中...", "error");
-        socket.onerror = (error) => showNotification("连接错误，请检查后端服务", "error");
+        socket.onopen = () => showNotification("Connected to the AI Assistant", "success");
+        socket.onclose = () => showNotification("The connection to the AI Assistant has been disconnected.Attempting to reconnect...", "error");
+        socket.onerror = (error) => showNotification("Connection error,please check the backend service", "error");
         
-        socket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                if (data.type === "response") addMessage("ai", data.content);
-                else if (data.type === "error") addMessage("error", data.content);
-            } catch (e) {
-                addMessage("ai", event.data);
+        // 替换原来的socket.onmessage处理
+    let accumulatedMarkdown = '';
+    const renderer = new marked.Renderer();
+
+    socket.onmessage = (event) => {
+        try {
+            const data = JSON.parse(event.data);
+            
+            // 如果是Markdown内容
+            if (data.type === "markdown" || data.type === "final") {
+                const html = marked.parse(data.content || '');
+                
+                // 更新或创建消息气泡
+                const aiMessages = document.querySelectorAll('.ai-message');
+                if (aiMessages.length > 0) {
+                    // 更新最后一个AI消息
+                    const lastAiMessage = aiMessages[aiMessages.length - 1];
+                    lastAiMessage.querySelector('.markdown-content').innerHTML = html;
+                } else {
+                    // 创建新消息
+                    const messageDiv = document.createElement("div");
+                    messageDiv.className = "mb-4 ai-message";
+                    messageDiv.innerHTML = `
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-gradient-ai flex items-center justify-center text-warm-red mr-2 shadow-sm">
+                                <i class="fa fa-robot"></i>
+                            </div>
+                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%] markdown-content">
+                                ${html}
+                            </div>
+                        </div>
+                    `;
+                    chatContainer.appendChild(messageDiv);
+                }
+                
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // 如果是最终消息
+                if (data.type === "final") {
+                    const endMarker = document.createElement('div');
+                    endMarker.className = 'text-xs text-gray-500 text-center mt-2';
+                    endMarker.textContent = '▲ 分析完成 ▲';
+                    chatContainer.appendChild(endMarker);
+                }
             }
-        };
+            // 错误处理
+            else if (data.type === "error") {
+                addMessage("error", data.content);
+            }
+        } catch (e) {
+            console.error("消息处理错误:", e);
+            addMessage("error", "响应解析失败");
+        }
+    };
+
+    function renderMarkdown(content, isFinal = false) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = marked.parse(content);
+        
+        // 只更新AI最后一个消息气泡
+        const aiMessages = document.querySelectorAll('.ai-message');
+        if (aiMessages.length > 0) {
+            const lastAiMessage = aiMessages[aiMessages.length - 1];
+            lastAiMessage.innerHTML = tempDiv.innerHTML;
+        } else {
+            // 创建新消息气泡
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'mb-4 ai-message';
+            messageDiv.innerHTML = `
+                <div class="flex items-start">
+                    <div class="w-10 h-10 rounded-full bg-gradient-ai flex items-center justify-center text-warm-red mr-2 shadow-sm">
+                        <i class="fa fa-robot"></i>
+                    </div>
+                    <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm max-w-[90%] markdown-content">
+                        ${tempDiv.innerHTML}
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+        }
+        
+        // 滚动到底部
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        // 最终消息添加完成标记
+        if (isFinal) {
+            const endMarker = document.createElement('div');
+            endMarker.className = 'text-xs text-gray-500 text-center mt-2';
+            endMarker.textContent = '▲ 分析完成 ▲';
+            chatContainer.appendChild(endMarker);
+        }
+    }
         
         // 导航栏滚动效果
         window.addEventListener("scroll", () => {
@@ -932,8 +1299,6 @@ The volume of sports video publications has been stable over the long term,with 
             
             currentTab = tabName;
         }
-
-        
     </script>
 </body>
 </html>

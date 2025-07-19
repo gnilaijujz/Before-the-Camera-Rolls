@@ -1,0 +1,31 @@
+
+🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
+   YouTube Game Video Publication Time Analysis Report
+🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯🎯
+
+📊 Data Overview:
+  Number of videos analyzed: 2,682
+  Time span: 2024-01-01 to 2025-07-09
+  Total duration: 555 days
+
+🔍 Key Findings:
+  📈 Most active publication time: Tue 14h, Jul
+  🏆 Best performance time: Mon 14h (Engagement rate: 7.9629)
+  📅 Weekday publication ratio: 70.0%
+  🌙 Night publication ratio: 25.1%
+  🔬 Best time after controlled variables: Thu 5h
+  ⚖️ Raw vs controlled analysis: Hour inconsistent, Weekday inconsistent
+  📊 Hour distribution significance: significant (p=0.0000)
+
+💡 Core Recommendations:
+  1. Focus on publishing at Thu 5h
+  2. Avoid peak publication times, find blue ocean time slots
+  3. Establish A/B testing to verify optimal times
+  4. Monitor long-term trend changes
+
+📈 Expected Impact:
+  Current average engagement rate: 0.6401
+  Best time engagement rate: 7.9629
+  Potential improvement: 1144.0%
+
+🎉 Analysis complete! Recommend saving this report for publication strategy reference.

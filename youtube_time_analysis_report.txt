@@ -8,24 +8,53 @@
   Time span: 2024-01-01 to 2025-07-09
   Total duration: 555 days
 
-🔍 Key Findings:
-  📈 Most active publication time: Wed 15h, Jul
-  🏆 Best performance time: Wed 1h (Engagement rate: 0.6893)
-  📅 Weekday publication ratio: 71.7%
-  🌙 Night publication ratio: 26.5%
-  🔬 Best time after controlled variables: Wed 1h
-  ⚖️ Raw vs controlled analysis: Hour consistent, Weekday consistent
-  📊 Hour distribution significance: significant (p=0.0000)
+### Publish Time Analysis
+    🔍 Key Findings:
+      📈 Most active publication time: Wed 15h, Jul
+      🏆 Best performance time: Wed 1h (Engagement rate: 0.6893)
+      📅 Weekday publication ratio: 71.7%
+      🌙 Night publication ratio: 26.5%
+      🔬 Best time after controlled variables: Wed 1h
+      ⚖️ Raw vs controlled analysis: Hour consistent, Weekday consistent
+      📊 Hour distribution significance: significant (p=0.0000)
 
-💡 Core Recommendations:
-  1. Focus on publishing at Wed 1h
-  2. Avoid peak publication times, find blue ocean time slots
-  3. Establish A/B testing to verify optimal times
-  4. Monitor long-term trend changes
+    💡 Core Recommendations:
+      1. Focus on publishing at Wed 1h
+      2. Avoid peak publication times, find blue ocean time slots
+      3. Establish A/B testing to verify optimal times
+      4. Monitor long-term trend changes
 
-📈 Expected Impact:
-  Current average engagement rate: 0.0544
-  Best time engagement rate: 0.6893
-  Potential improvement: 1167.4%
+    📈 Expected Impact:
+      Current average engagement rate: 0.0544
+      Best time engagement rate: 0.6893
+      Potential improvement: 1167.4%
+
+
+
+### Tag Analysis
+- **High Concentration of Core Tags**: Keywords such as "sports," "football," and "league" dominate, with about one-third of the tags related to football, reflecting mainstream interests.
+- **Diverse Content Formats**: Tags like "shorts," "highlight," and "viral" indicate that short videos and highlight clips are more likely to be shared.
+- **Clear Semantic Clustering**: UMAP clustering shows that semantically similar tags form distinct groups, with significant semantic differences between clusters.
+- **Significant Performance Differences**: Some clusters (e.g., Cluster 1 and 3) perform exceptionally well in terms of views and engagement, making them suitable as key content directions.
+
+### Description Analysis
+- **Broad Keyword Coverage**: The word cloud reveals core terms including types of sports, event names, and popular tags, reflecting content themes and global relevance.
+- **Length Correlated with Video Duration**: Descriptions expand with longer video durations; short videos have concise descriptions, while mid-to-long videos have more detailed ones, increasing information density.
+- **Clustered Style Differences**: Description clustering analysis reveals diversity in content performance (views, engagement) and semantic style.
+- **Positive Sentiment Prevalence**: Over 95% of the descriptions contain positive emotions, which helps attract user clicks and engagement.
+
+### Title Analysis
+- **Clear Thematic Focus**: LDA topic analysis shows that titles revolve around keywords such as "matches," "players," and "exciting moments."
+- **High-Frequency Click-Inducing Words**: The word cloud highlights high-frequency terms related to attractive events or personalities.
+- **Title Length Correlated with Video Length**: Short videos have an average of 12-word titles, while mid-to-long videos are streamlined to 8 words, matching different viewer reading habits and platform recommendation logic.
+
+### Duration Analysis
+- **Short Videos Have a Clear Advantage**: Videos between 0-3 minutes have an average engagement rate of 0.037, which is more than three times higher than content over 10 minutes.
+- **Balanced Performance for Medium-Length Videos**: The 8-12 minute range balances information density and viewer retention, recommended as the primary duration band.
+- **Higher Interaction Efficiency**: Short videos have significantly higher like/view and comment/view ratios compared to mid-to-long videos, reflecting content preferences in the age of fragmentation.
+- **Cyclical Viewing Behavior**: Data supports high viewing periods between 6-10 PM and on Fridays to Sundays, suggesting optimizing release times in conjunction with duration.
+
+
+
 
 🎉 Analysis complete! Recommend saving this report for publication strategy reference.
